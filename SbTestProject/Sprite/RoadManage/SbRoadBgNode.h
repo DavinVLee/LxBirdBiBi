@@ -8,7 +8,7 @@
 
 #import <SpriteKit/SpriteKit.h>
 
-@interface SbRoadBgNode : SKNode
+@interface SbRoadBgNode : SKSpriteNode
 /**
  *初始化道路
  *@param index （道路类型，统一命名RoadMap -》index

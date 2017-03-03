@@ -7,8 +7,12 @@
 //
 
 #import "GameScene.h"
+#import "SbRoadBgNode.h"
+#import "SbBirdSpriteNode.h"
 
-@interface GameScene ()
+
+#define kRoadOffsetMinX 7
+@interface GameScene ()<SKPhysicsContactDelegate>
 
 @property (strong, nonatomic) NSMutableArray *roadArray;
 
@@ -20,34 +24,44 @@
     /**
      *小鸟精灵
      */
-    SKSpriteNode *_birdNode;
+    SbBirdSpriteNode *_birdNode;
     /**
      *道路父视图（负责滚动效果)
      */
-    SKNode *_roadBgNode;
+    SbRoadBgNode *_roadBgNode;
 }
 
 - (void)didMoveToView:(SKView *)view {
+    
+    self.physicsWorld.contactDelegate = self;
+    self.physicsWorld.gravity = CGVectorMake(0, -4);
     // Setup your scene here
-    _birdNode = (SKSpriteNode *)[self childNodeWithName:@"bird"];
-    _birdNode.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(_birdNode.size.width, _birdNode.size.height)];
+    _birdNode = (SbBirdSpriteNode *)[self childNodeWithName:@"bird"];
+    _birdNode.physicsBody = [SKPhysicsBody bodyWithTexture:_birdNode.texture size:_birdNode.texture.size];
     _birdNode.physicsBody.dynamic = YES;
-    _birdNode.physicsBody.linearDamping = 1.0;
-    _birdNode.physicsBody.allowsRotation = NO;
+    _birdNode.physicsBody.linearDamping = 0.8;//移动时的摩擦
+    _birdNode.physicsBody.allowsRotation = NO;//允许旋转
+    _birdNode.physicsBody.restitution = 0;//从另一个物体弹出时剩余多少能量
+    _birdNode.physicsBody.density = 1.5;//密度的倍数默认为1；
     _birdNode.physicsBody.affectedByGravity = YES;
+    _birdNode.physicsBody.contactTestBitMask = 2;
+    _birdNode.physicsBody.categoryBitMask = 1;
+    _birdNode.physicsBody.collisionBitMask = 3;
+    _birdNode.status = SbBirdNormal;
     
-
     
-    self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
+    
+//    self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
     
     // Get label node from scene and store it for use later
     //设置道路背景
-    _roadBgNode = [SKNode node];
-    
+    _roadBgNode = (SbRoadBgNode *)[self childNodeWithName:@"RoadBg"];
+    _roadBgNode.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(10, 10)];
+    _roadBgNode.physicsBody.affectedByGravity = NO;
+    _roadBgNode.physicsBody.dynamic = YES;
+    [_roadBgNode setupDefaultRoadWithMapIndex:1];
 //    
     CGFloat w = (self.size.width + self.size.height) * 0.05;
-//
-//    // Create shape node to use during mouse interaction
     _spinnyNode = [SKShapeNode shapeNodeWithRectOfSize:CGSizeMake(w, w) cornerRadius:w * 0.3];
     _spinnyNode.lineWidth = 2.5;
     
@@ -58,17 +72,41 @@
                                                 [SKAction removeFromParent],
                                                 ]]];
     
-    
     //小鸟设置
    
+}
+#pragma mark - ContactDelegate
+- (void)didBeginContact:(SKPhysicsContact *)contact
+{
+    _birdNode.status = SbBirdNormal;
+}
+
+- (void)didEndContact:(SKPhysicsContact *)contact
+{
+    
 }
 
 
 - (void)updateActionWithVoiceForce:(double)force
 {
     NSLog(@"force = %f",force);
-    if (force > 4) {
-       [_birdNode.physicsBody applyForce:CGVectorMake(1000, 0)];
+    if (force <= 1) {//声音过小，
+        return;
+    }else if (force <= 4) { //表示行走状态
+        CGFloat scrollForce = force/4 * kRoadOffsetMinX;
+        if (_birdNode.status <= SbBirdWalking) {
+            _birdNode.status = SbBirdWalking;
+        }
+        _roadBgNode.position = CGPointMake(_roadBgNode.position.x - scrollForce, _roadBgNode.position.y);
+        
+    }else
+    {
+        if (_birdNode.status < SbBirdJump) {
+           [_birdNode.physicsBody applyForce:CGVectorMake(0, 7000)];
+            _birdNode.status = SbBirdJump;
+        }
+        
+        _roadBgNode.position = CGPointMake(_roadBgNode.position.x - kRoadOffsetMinX, _roadBgNode.position.y);
     }
 }
 
@@ -80,9 +118,6 @@
     n.position = pos;
     n.strokeColor = [SKColor greenColor];
     [self addChild:n];
-    
-    
-    
 }
 
 - (void)touchMovedToPoint:(CGPoint)pos {

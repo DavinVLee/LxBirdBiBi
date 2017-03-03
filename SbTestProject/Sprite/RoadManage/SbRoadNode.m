@@ -12,9 +12,24 @@
 
 + (SbRoadNode *)nodeWithType:(SbRoadType)type
 {
-    SbRoadNode *node = [SbRoadNode nodeWithFileNamed:[NSString stringWithFormat:@"SbRoad%ld",type]];
+    NSString *imageName = [NSString stringWithFormat:@"SbRoad%ld",type];
+    SbRoadNode *node = [SbRoadNode spriteNodeWithImageNamed:imageName];
     node.type = type;
     return node;
+}
+
+- (void)nodePhysicsBodySetup
+{
+    self.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(self.size.width, self.size.height)];
+    self.physicsBody.linearDamping = 0.5;
+    self.physicsBody.allowsRotation = NO;
+    self.physicsBody.affectedByGravity = NO;
+    self.physicsBody.dynamic = NO;
+    
+    
+    self.physicsBody.contactTestBitMask = 1;
+    self.physicsBody.categoryBitMask = 2;
+    self.physicsBody.collisionBitMask = 3;
 }
 
 @end

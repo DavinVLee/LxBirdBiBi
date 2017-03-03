@@ -15,11 +15,15 @@ typedef NS_ENUM(NSInteger,SbRoadType){
     SbRoadType2,
     SbRoadType3,
 };
-@interface SbRoadNode : SKNode
+@interface SbRoadNode : SKSpriteNode
 /**
  *道路获取实例方法
  */
 + (SbRoadNode *)nodeWithType:(SbRoadType)type;
+/**
+ *道路刚体设置
+ */
+- (void)nodePhysicsBodySetup;
 
 /**
  *道路类型
