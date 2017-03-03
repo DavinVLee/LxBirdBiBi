@@ -8,7 +8,7 @@
 			<key>SbroadType</key>
 			<string>1</string>
 			<key>nextRoadOffsetXscale</key>
-			<string>0.23</string>
+			<string>0.19</string>
 		</dict>
 		<dict>
 			<key>SbroadType</key>
@@ -20,43 +20,7 @@
 			<key>SbroadType</key>
 			<string>3</string>
 			<key>nextRoadOffsetXscale</key>
-			<string>0.3</string>
-		</dict>
-		<dict>
-			<key>SbroadType</key>
-			<string>1</string>
-			<key>nextRoadOffsetXscale</key>
-			<string>0.25</string>
-		</dict>
-		<dict>
-			<key>SbroadType</key>
-			<string>3</string>
-			<key>nextRoadOffsetXscale</key>
 			<string>0</string>
-		</dict>
-		<dict>
-			<key>SbroadType</key>
-			<string>2</string>
-			<key>nextRoadOffsetXscale</key>
-			<string>0</string>
-		</dict>
-		<dict>
-			<key>SbroadType</key>
-			<string>3</string>
-			<key>nextRoadOffsetXscale</key>
-			<string>0.35</string>
-		</dict>
-		<dict>
-			<key>SbroadType</key>
-			<string>1</string>
-			<key>nextRoadOffsetXscale</key>
-			<string>0.24</string>
-		</dict>
-		<dict>
-			<key>SbroadType</key>
-			<string>2</string>
-			<key>nextRoadOffsetXscale</key>
-			<string>0.3</string>
 		</dict>
 		<dict>
 			<key>SbroadType</key>
@@ -68,31 +32,85 @@
 			<key>SbroadType</key>
 			<string>3</string>
 			<key>nextRoadOffsetXscale</key>
-			<string>0.4</string>
+			<string>0.13</string>
 		</dict>
 		<dict>
 			<key>SbroadType</key>
 			<string>2</string>
 			<key>nextRoadOffsetXscale</key>
-			<string>0</string>
+			<string>0.19</string>
 		</dict>
 		<dict>
 			<key>SbroadType</key>
 			<string>3</string>
 			<key>nextRoadOffsetXscale</key>
-			<string>0.22</string>
+			<string>0.17</string>
 		</dict>
 		<dict>
 			<key>SbroadType</key>
 			<string>1</string>
 			<key>nextRoadOffsetXscale</key>
-			<string>0.15</string>
+			<string>0.22</string>
+		</dict>
+		<dict>
+			<key>SbroadType</key>
+			<string>2</string>
+			<key>nextRoadOffsetXscale</key>
+			<string>0.21</string>
+		</dict>
+		<dict>
+			<key>SbroadType</key>
+			<string>1</string>
+			<key>nextRoadOffsetXscale</key>
+			<string>0.18</string>
 		</dict>
 		<dict>
 			<key>SbroadType</key>
 			<string>3</string>
 			<key>nextRoadOffsetXscale</key>
-			<string>0.5</string>
+			<string>0.19</string>
+		</dict>
+		<dict>
+			<key>SbroadType</key>
+			<string>2</string>
+			<key>nextRoadOffsetXscale</key>
+			<string>0.16</string>
+		</dict>
+		<dict>
+			<key>SbroadType</key>
+			<string>3</string>
+			<key>nextRoadOffsetXscale</key>
+			<string>0.21</string>
+		</dict>
+		<dict>
+			<key>SbroadType</key>
+			<string>1</string>
+			<key>nextRoadOffsetXscale</key>
+			<string>0.14</string>
+		</dict>
+		<dict>
+			<key>SbroadType</key>
+			<string>3</string>
+			<key>nextRoadOffsetXscale</key>
+			<string>0.13</string>
+		</dict>
+		<dict>
+			<key>SbroadType</key>
+			<string>1</string>
+			<key>nextRoadOffsetXscale</key>
+			<string>0.14</string>
+		</dict>
+		<dict>
+			<key>SbroadType</key>
+			<string>1</string>
+			<key>nextRoadOffsetXscale</key>
+			<string>0.22</string>
+		</dict>
+		<dict>
+			<key>SbroadType</key>
+			<string>2</string>
+			<key>nextRoadOffsetXscale</key>
+			<string>0.19</string>
 		</dict>
 		<dict>
 			<key>SbroadType</key>
@@ -108,27 +126,9 @@
 		</dict>
 		<dict>
 			<key>SbroadType</key>
-			<string>2</string>
-			<key>nextRoadOffsetXscale</key>
-			<string>0.31</string>
-		</dict>
-		<dict>
-			<key>SbroadType</key>
-			<string>1</string>
-			<key>nextRoadOffsetXscale</key>
-			<string>0.15</string>
-		</dict>
-		<dict>
-			<key>SbroadType</key>
-			<string>1</string>
-			<key>nextRoadOffsetXscale</key>
-			<string>0.26</string>
-		</dict>
-		<dict>
-			<key>SbroadType</key>
 			<string>3</string>
 			<key>nextRoadOffsetXscale</key>
-			<string>0.2</string>
+			<string>0.19</string>
 		</dict>
 	</array>
 </dict>

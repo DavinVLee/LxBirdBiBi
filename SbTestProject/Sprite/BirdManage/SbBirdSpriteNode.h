@@ -21,4 +21,12 @@ typedef NS_ENUM(NSInteger, SbBirdStatus){
  */
 @property (assign, nonatomic) SbBirdStatus status;
 
+
+/**
+ *初始化纹理
+ */
+- (void)setupDefaultTexture;
+
+- (void)updateAnimation;
+
 @end

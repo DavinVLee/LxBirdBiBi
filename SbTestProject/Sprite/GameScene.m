@@ -11,10 +11,16 @@
 #import "SbBirdSpriteNode.h"
 
 
-#define kRoadOffsetMinX 7
+#define kRoadOffsetMinX 2.5
+#define kBirdJumpMaxForce 1700  //default = 7000
 @interface GameScene ()<SKPhysicsContactDelegate>
 
 @property (strong, nonatomic) NSMutableArray *roadArray;
+
+@property (assign, nonatomic) NSTimeInterval voiceToJumoTime;
+
+
+@property (assign, nonatomic) NSTimeInterval currentTime;
 
 @end
 
@@ -34,21 +40,25 @@
 - (void)didMoveToView:(SKView *)view {
     
     self.physicsWorld.contactDelegate = self;
-    self.physicsWorld.gravity = CGVectorMake(0, -4);
+    self.physicsWorld.gravity = CGVectorMake(0, -4.5);
     // Setup your scene here
     _birdNode = (SbBirdSpriteNode *)[self childNodeWithName:@"bird"];
     _birdNode.physicsBody = [SKPhysicsBody bodyWithTexture:_birdNode.texture size:_birdNode.texture.size];
     _birdNode.physicsBody.dynamic = YES;
-    _birdNode.physicsBody.linearDamping = 0.8;//移动时的摩擦
+    _birdNode.physicsBody.linearDamping = 1.0;//移动时的摩擦
     _birdNode.physicsBody.allowsRotation = NO;//允许旋转
     _birdNode.physicsBody.restitution = 0;//从另一个物体弹出时剩余多少能量
-    _birdNode.physicsBody.density = 1.5;//密度的倍数默认为1；
+    _birdNode.physicsBody.density = 1.0;//密度的倍数默认为1；
     _birdNode.physicsBody.affectedByGravity = YES;
     _birdNode.physicsBody.contactTestBitMask = 2;
     _birdNode.physicsBody.categoryBitMask = 1;
     _birdNode.physicsBody.collisionBitMask = 3;
+    [_birdNode setupDefaultTexture];
     _birdNode.status = SbBirdNormal;
+    [_birdNode updateAnimation];
     
+    
+      _voiceToJumoTime = 0;
     
     
 //    self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
@@ -78,7 +88,7 @@
 #pragma mark - ContactDelegate
 - (void)didBeginContact:(SKPhysicsContact *)contact
 {
-    _birdNode.status = SbBirdNormal;
+//    _birdNode.status = SbBirdNormal;
 }
 
 - (void)didEndContact:(SKPhysicsContact *)contact
@@ -89,21 +99,30 @@
 
 - (void)updateActionWithVoiceForce:(double)force
 {
-    NSLog(@"force = %f",force);
+//    NSLog(@"force = %f",force);
     if (force <= 1) {//声音过小，
+        if (_birdNode.status > SbBirdNormal) {
+           _birdNode.status = SbBirdNormal;
+            [_birdNode updateAnimation];
+        }
+        
+        _voiceToJumoTime = 0;
         return;
-    }else if (force <= 4) { //表示行走状态
-        CGFloat scrollForce = force/4 * kRoadOffsetMinX;
-        if (_birdNode.status <= SbBirdWalking) {
+    }else if (force <= 3.5) { //表示行走状态
+        CGFloat scrollForce = force/3 * kRoadOffsetMinX;
+        if (_birdNode.status != SbBirdWalking) {
             _birdNode.status = SbBirdWalking;
+            [_birdNode updateAnimation];
         }
         _roadBgNode.position = CGPointMake(_roadBgNode.position.x - scrollForce, _roadBgNode.position.y);
         
     }else
     {
-        if (_birdNode.status < SbBirdJump) {
-           [_birdNode.physicsBody applyForce:CGVectorMake(0, 7000)];
+        if (_birdNode.status <= SbBirdJump) {
+            NSLog(@"跳跃力量%f",MIN(kBirdJumpMaxForce, (force - 3.5) / 5 * kBirdJumpMaxForce));
+           [_birdNode.physicsBody applyForce:CGVectorMake(0, MIN(kBirdJumpMaxForce, (force - 3.5) / 5 * kBirdJumpMaxForce))];
             _birdNode.status = SbBirdJump;
+            [_birdNode updateAnimation];
         }
         
         _roadBgNode.position = CGPointMake(_roadBgNode.position.x - kRoadOffsetMinX, _roadBgNode.position.y);
@@ -153,6 +172,16 @@
 
 -(void)update:(CFTimeInterval)currentTime {
     // Called before each frame is rendered
+    
+    if (_birdNode.status == SbBirdJump) {
+        self.voiceToJumoTime += currentTime - self.currentTime;
+        if (self.voiceToJumoTime >= 0.09) {
+            _birdNode.status = SbBirdDrop;
+            [_birdNode updateAnimation];
+            _voiceToJumoTime = 0;
+        }
+    }
+    self.currentTime = currentTime;
 }
 
 @end
