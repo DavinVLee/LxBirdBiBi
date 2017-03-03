@@ -10,12 +10,11 @@
 
 @implementation SbRoadNode
 
-//+ (SbRoadNode *)nodeWithType:(SbRoadType)type
-//{
-//    SbRoadNode *node = [SbRoadNode nodeWithFileNamed:[NSString stringWithFormat:@"SbRoad%ld",type]];
-//    node.type = type;
-//    node.
-//    return node;
-//}
++ (SbRoadNode *)nodeWithType:(SbRoadType)type
+{
+    SbRoadNode *node = [SbRoadNode nodeWithFileNamed:[NSString stringWithFormat:@"SbRoad%ld",type]];
+    node.type = type;
+    return node;
+}
 
 @end

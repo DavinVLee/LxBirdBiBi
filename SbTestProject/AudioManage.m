@@ -7,7 +7,7 @@
 //
 
 #import "AudioManage.h"
-#include <EZAudio/EZAudio.h>
+#import "EZAudio.h"
 
 @interface AudioManage()<EZMicrophoneDelegate>
 /*

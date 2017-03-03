@@ -502,8 +502,8 @@ typedef NSRect EZRect;
  @param historyInfo A pointer to a EZPlotHistoryInfo structure to use for managing the history buffers
  */
 + (float)appendBufferRMS:(float *)buffer
-          withBufferSize:(UInt32)bufferSize
-           toHistoryInfo:(EZPlotHistoryInfo *)historyInfo;
+         withBufferSize:(UInt32)bufferSize
+          toHistoryInfo:(EZPlotHistoryInfo *)historyInfo;
 
 //------------------------------------------------------------------------------
 

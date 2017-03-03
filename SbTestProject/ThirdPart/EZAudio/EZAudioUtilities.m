@@ -656,8 +656,8 @@ BOOL __shouldExitOnCheckResultFail = YES;
 //------------------------------------------------------------------------------
 
 + (float)appendBufferRMS:(float *)buffer
-          withBufferSize:(UInt32)bufferSize
-           toHistoryInfo:(EZPlotHistoryInfo *)historyInfo
+         withBufferSize:(UInt32)bufferSize
+          toHistoryInfo:(EZPlotHistoryInfo *)historyInfo
 {
     //
     // Calculate RMS and append to buffer

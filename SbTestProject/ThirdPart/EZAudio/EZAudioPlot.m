@@ -316,9 +316,9 @@ UInt32 const EZAudioPlotDefaultMaxHistoryBufferLength = 8192;
 - (float)updateBuffer:(float *)buffer withBufferSize:(UInt32)bufferSize
 {
     // append the buffer to the history
-    float rms = [EZAudioUtilities appendBufferRMS:buffer
-                                   withBufferSize:bufferSize
-                                    toHistoryInfo:self.historyInfo];
+   float rms = [EZAudioUtilities appendBufferRMS:buffer
+                       withBufferSize:bufferSize
+                        toHistoryInfo:self.historyInfo];
     
     // copy samples
     switch (self.plotType)
@@ -352,9 +352,12 @@ UInt32 const EZAudioPlotDefaultMaxHistoryBufferLength = 8192;
     for (int i = 0; i < length; i++)
     {
         points[i].x = i;
+        
         points[i].y = data[i] * self.gain;
+//        NSLog(@"x = %d  y = %f   ",i,data[i] * self.gain);
     }
     points[0].y = points[length - 1].y = 0.0f;
+//    NSLog(@"length = %d",length);
     self.pointCount = length;
 }
 

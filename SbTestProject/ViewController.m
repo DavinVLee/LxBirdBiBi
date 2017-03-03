@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#include <EZAudio/EZAudio.h>
+#import "EZAudio.h"
 #import "MacroDefine.h"
 #import <SpriteKit/SpriteKit.h>
 #import <GameplayKit/GameplayKit.h>

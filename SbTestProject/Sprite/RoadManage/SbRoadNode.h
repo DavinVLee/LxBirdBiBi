@@ -25,5 +25,9 @@ typedef NS_ENUM(NSInteger,SbRoadType){
  *道路类型
  */
 @property (assign, nonatomic) SbRoadType type;
+/**
+ *布置后横向位移下一个道路距离（相对于屏幕宽度的比例）
+ */
+@property (assign, nonatomic) float nextRoadOffsetXscale;
 
 @end
