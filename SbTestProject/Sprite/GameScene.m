@@ -25,6 +25,14 @@
  *游戏是否结束
  */
 @property (assign, nonatomic) BOOL isGameOver;
+/**
+ *道路总长度
+ */
+@property (assign, nonatomic) CGFloat roadTotalLength;
+/**
+ *道路其实x
+ */
+@property (assign, nonatomic) CGFloat roadOriginX;
 
 @end
 
@@ -39,13 +47,17 @@
      *道路父视图（负责滚动效果)
      */
     SbRoadBgNode *_roadBgNode;
+    /**
+     *进度小鸟
+     */
+    SKSpriteNode *_bird_smaNode;
 }
 
 - (void)didMoveToView:(SKView *)view {
     
     self.physicsWorld.contactDelegate = self;
     self.physicsWorld.gravity = CGVectorMake(0, -4.5);
-    // Setup your scene here
+     //小鸟设置
     _birdNode = (SbBirdSpriteNode *)[self childNodeWithName:@"bird"];
 //    _birdNode.physicsBody = [SKPhysicsBody bodyWithTexture:_birdNode.texture size:_birdNode.texture.size];
     _birdNode.physicsBody.dynamic = YES;
@@ -60,20 +72,18 @@
     [_birdNode setupDefaultTexture];
     _birdNode.status = SbBirdNormal;
     [_birdNode updateAnimation];
+    //进度条
+    _bird_smaNode = (SKSpriteNode *)[self childNodeWithName:@"bird_sma"];
     
     
       _voiceToJumoTime = 0;
-    
-    
-//    self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
-    
-    // Get label node from scene and store it for use later
     //设置道路背景
     _roadBgNode = (SbRoadBgNode *)[self childNodeWithName:@"RoadBg"];
     _roadBgNode.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(10, 10)];
     _roadBgNode.physicsBody.affectedByGravity = NO;
     _roadBgNode.physicsBody.dynamic = YES;
-    [_roadBgNode setupDefaultRoadWithMapIndex:1];
+    _roadTotalLength = [_roadBgNode setupDefaultRoadWithMapIndex:1];
+    _roadOriginX = _roadBgNode.position.x;
 //    
     CGFloat w = (self.size.width + self.size.height) * 0.05;
     _spinnyNode = [SKShapeNode shapeNodeWithRectOfSize:CGSizeMake(w, w) cornerRadius:w * 0.3];
@@ -86,7 +96,7 @@
                                                 [SKAction removeFromParent],
                                                 ]]];
     
-    //小鸟设置
+   
    
 }
 #pragma mark - ContactDelegate
@@ -141,12 +151,17 @@
 }
 
 #pragma mark - FUCTION
+/**
+ *道路移动
+ */
 - (void)roadScrollWithOffsetX:(CGFloat)offset_x
 {
     if (_isGameOver) {
         return;
     }
      _roadBgNode.position = CGPointMake(offset_x, _roadBgNode.position.y);
+    _bird_smaNode.position = CGPointMake(180 + ( _roadOriginX - offset_x) / _roadTotalLength  * 125,_bird_smaNode.position.y);
+    NSLog(@"道路偏移position.x = %f  小鸟位移%f",offset_x,_bird_smaNode.position.x);
 
 }
 

@@ -21,7 +21,7 @@
 @implementation SbRoadBgNode
 
 #pragma mark - CallFunction
-- (void)setupDefaultRoadWithMapIndex:(NSInteger)index
+- (CGFloat)setupDefaultRoadWithMapIndex:(NSInteger)index
 {
     if (_roadNodeArray) {
         for (SbRoadNode *road in self.roadNodeArray) {
@@ -61,6 +61,8 @@
         [roadNode nodePhysicsBodySetup];
     }
     
+    
+    return offsetX;
     
 }
 

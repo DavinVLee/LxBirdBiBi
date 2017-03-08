@@ -12,7 +12,8 @@
 /**
  *初始化道路
  *@param index （道路类型，统一命名RoadMap -》index
+ *@return 道路总长度
  */
-- (void)setupDefaultRoadWithMapIndex:(NSInteger)index;
+- (CGFloat)setupDefaultRoadWithMapIndex:(NSInteger)index;
 
 @end
