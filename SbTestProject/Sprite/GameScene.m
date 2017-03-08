@@ -21,6 +21,10 @@
 
 
 @property (assign, nonatomic) NSTimeInterval currentTime;
+/**
+ *游戏是否结束
+ */
+@property (assign, nonatomic) BOOL isGameOver;
 
 @end
 
@@ -43,7 +47,7 @@
     self.physicsWorld.gravity = CGVectorMake(0, -4.5);
     // Setup your scene here
     _birdNode = (SbBirdSpriteNode *)[self childNodeWithName:@"bird"];
-    _birdNode.physicsBody = [SKPhysicsBody bodyWithTexture:_birdNode.texture size:_birdNode.texture.size];
+//    _birdNode.physicsBody = [SKPhysicsBody bodyWithTexture:_birdNode.texture size:_birdNode.texture.size];
     _birdNode.physicsBody.dynamic = YES;
     _birdNode.physicsBody.linearDamping = 1.0;//移动时的摩擦
     _birdNode.physicsBody.allowsRotation = NO;//允许旋转
@@ -88,7 +92,10 @@
 #pragma mark - ContactDelegate
 - (void)didBeginContact:(SKPhysicsContact *)contact
 {
-//    _birdNode.status = SbBirdNormal;
+
+    
+    _birdNode.status = SbBirdNormal;
+    [_birdNode updateAnimation];
 }
 
 - (void)didEndContact:(SKPhysicsContact *)contact
@@ -102,19 +109,23 @@
 //    NSLog(@"force = %f",force);
     if (force <= 1) {//声音过小，
         if (_birdNode.status > SbBirdNormal) {
-           _birdNode.status = SbBirdNormal;
+            if (_birdNode.status == SbBirdJump) {
+                _birdNode.status = SbBirdDrop;//上一步骤是跳跃，所以此处为下落开始
+            }else if (_birdNode.status == SbBirdWalking)
+            {
+                _birdNode.status = SbBirdNormal;
+            }
             [_birdNode updateAnimation];
         }
-        
         _voiceToJumoTime = 0;
         return;
     }else if (force <= 3.5) { //表示行走状态
         CGFloat scrollForce = force/3 * kRoadOffsetMinX;
-        if (_birdNode.status != SbBirdWalking) {
+        if (_birdNode.status == SbBirdNormal ) {
             _birdNode.status = SbBirdWalking;
             [_birdNode updateAnimation];
         }
-        _roadBgNode.position = CGPointMake(_roadBgNode.position.x - scrollForce, _roadBgNode.position.y);
+        [self roadScrollWithOffsetX:_roadBgNode.position.x - scrollForce];
         
     }else
     {
@@ -124,9 +135,19 @@
             _birdNode.status = SbBirdJump;
             [_birdNode updateAnimation];
         }
-        
-        _roadBgNode.position = CGPointMake(_roadBgNode.position.x - kRoadOffsetMinX, _roadBgNode.position.y);
+        [self roadScrollWithOffsetX:_roadBgNode.position.x - kRoadOffsetMinX];
+       
     }
+}
+
+#pragma mark - FUCTION
+- (void)roadScrollWithOffsetX:(CGFloat)offset_x
+{
+    if (_isGameOver) {
+        return;
+    }
+     _roadBgNode.position = CGPointMake(offset_x, _roadBgNode.position.y);
+
 }
 
 #pragma mark - touchAction
@@ -172,8 +193,14 @@
 
 -(void)update:(CFTimeInterval)currentTime {
     // Called before each frame is rendered
+    if (_isGameOver) {
+        return;
+    }
     
-    if (_birdNode.status == SbBirdJump) {
+    if (_birdNode.position.y <=  - self.size.height/2.f) {
+        NSLog(@"游戏结束了");
+        _isGameOver = YES;
+    } else if (_birdNode.status == SbBirdJump) {
         self.voiceToJumoTime += currentTime - self.currentTime;
         if (self.voiceToJumoTime >= 0.09) {
             _birdNode.status = SbBirdDrop;
