@@ -81,6 +81,9 @@
 		C9057D921E68FE9600185BAD /* chicken_stay_00021@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9057D7C1E68FE9600185BAD /* chicken_stay_00021@2x.png */; };
 		C9057D961E6911F000185BAD /* SbRoadBgNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C9057D951E6911F000185BAD /* SbRoadBgNode.m */; };
 		C9057D991E69122000185BAD /* SbRoadNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C9057D981E69122000185BAD /* SbRoadNode.m */; };
+		C91D32B91E705B4000B6A625 /* chicken_faild@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C91D32B61E705B4000B6A625 /* chicken_faild@2x.png */; };
+		C91D32BA1E705B4000B6A625 /* chicken_walk1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C91D32B71E705B4000B6A625 /* chicken_walk1@2x.png */; };
+		C91D32BB1E705B4000B6A625 /* chicken_walk2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C91D32B81E705B4000B6A625 /* chicken_walk2@2x.png */; };
 		C9627BAF1E69210300B7B1BA /* RoadManageInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9627BAE1E69210300B7B1BA /* RoadManageInfo.plist */; };
 		C9627BD51E694E1F00B7B1BA /* EZAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = C9627BB31E694E1F00B7B1BA /* EZAudio.m */; };
 		C9627BD61E694E1F00B7B1BA /* EZAudioDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = C9627BB51E694E1F00B7B1BA /* EZAudioDevice.m */; };
@@ -208,6 +211,10 @@
 		C9057D951E6911F000185BAD /* SbRoadBgNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SbRoadBgNode.m; sourceTree = "<group>"; };
 		C9057D971E69122000185BAD /* SbRoadNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SbRoadNode.h; sourceTree = "<group>"; };
 		C9057D981E69122000185BAD /* SbRoadNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SbRoadNode.m; sourceTree = "<group>"; };
+		C91D32B61E705B4000B6A625 /* chicken_faild@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chicken_faild@2x.png"; sourceTree = "<group>"; };
+		C91D32B71E705B4000B6A625 /* chicken_walk1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chicken_walk1@2x.png"; sourceTree = "<group>"; };
+		C91D32B81E705B4000B6A625 /* chicken_walk2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chicken_walk2@2x.png"; sourceTree = "<group>"; };
+		C91D32BC1E705E3800B6A625 /* GameDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameDefines.h; sourceTree = "<group>"; };
 		C9627BAE1E69210300B7B1BA /* RoadManageInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RoadManageInfo.plist; sourceTree = "<group>"; };
 		C9627BB21E694E1F00B7B1BA /* EZAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudio.h; sourceTree = "<group>"; };
 		C9627BB31E694E1F00B7B1BA /* EZAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudio.m; sourceTree = "<group>"; };
@@ -367,6 +374,7 @@
 				C9057CB51E672C1F00185BAD /* GameScene.h */,
 				C9057CB61E672C1F00185BAD /* GameScene.m */,
 				C9057CB71E672C1F00185BAD /* GameScene.sks */,
+				C91D32BC1E705E3800B6A625 /* GameDefines.h */,
 				C9627BE61E69C9D300B7B1BA /* BirdManage */,
 				C9057D931E6911C200185BAD /* RoadManage */,
 			);
@@ -376,6 +384,9 @@
 		C9057CBD1E6730A000185BAD /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				C91D32B61E705B4000B6A625 /* chicken_faild@2x.png */,
+				C91D32B71E705B4000B6A625 /* chicken_walk1@2x.png */,
+				C91D32B81E705B4000B6A625 /* chicken_walk2@2x.png */,
 				C9057D661E68FE9600185BAD /* BirdStand */,
 				C9057D471E68FE8300185BAD /* BirdJump */,
 				C9057CEF1E6840B500185BAD /* WechatIMG300.jpeg */,
@@ -651,6 +662,7 @@
 				C9057CE71E683FC500185BAD /* SbTree2@2x.png in Resources */,
 				C9057D911E68FE9600185BAD /* chicken_stay_00020@2x.png in Resources */,
 				C9057CBA1E672C1F00185BAD /* GameScene.sks in Resources */,
+				C91D32BB1E705B4000B6A625 /* chicken_walk2@2x.png in Resources */,
 				C9627BE41E694E1F00B7B1BA /* Info.plist in Resources */,
 				C9057CE51E683FC500185BAD /* SbTree1@2x.png in Resources */,
 				C9057CE91E683FC500185BAD /* SbReturn@2x.png in Resources */,
@@ -663,10 +675,12 @@
 				C9057D8F1E68FE9600185BAD /* chicken_stay_00018@2x.png in Resources */,
 				C9057CE41E683FC500185BAD /* SbRoad2@2x.png in Resources */,
 				C9057D5D1E68FE8300185BAD /* chicken_jump_0006@2x.png in Resources */,
+				C91D32B91E705B4000B6A625 /* chicken_faild@2x.png in Resources */,
 				C9057D601E68FE8300185BAD /* chicken_jump_0009@2x.png in Resources */,
 				C9057D5C1E68FE8300185BAD /* chicken_jump_0005@2x.png in Resources */,
 				C9057D5A1E68FE8300185BAD /* chicken_jump_0003@2x.png in Resources */,
 				C9057D831E68FE9600185BAD /* chicken_stay_0006@2x.png in Resources */,
+				C91D32BA1E705B4000B6A625 /* chicken_walk1@2x.png in Resources */,
 				C9057D7E1E68FE9600185BAD /* chicken_stay_0001@2x.png in Resources */,
 				C9057D5E1E68FE8300185BAD /* chicken_jump_0007@2x.png in Resources */,
 				C9057CE11E683FC500185BAD /* SbRoad3@2x.png in Resources */,

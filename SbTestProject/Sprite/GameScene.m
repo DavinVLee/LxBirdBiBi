@@ -55,6 +55,7 @@
 
 - (void)didMoveToView:(SKView *)view {
     
+    _isGameOver = YES;
     self.physicsWorld.contactDelegate = self;
     self.physicsWorld.gravity = CGVectorMake(0, -4.5);
      //小鸟设置
@@ -84,7 +85,8 @@
     _roadBgNode.physicsBody.dynamic = YES;
     _roadTotalLength = [_roadBgNode setupDefaultRoadWithMapIndex:1];
     _roadOriginX = _roadBgNode.position.x;
-//    
+//    设置手势点击效果
+    
     CGFloat w = (self.size.width + self.size.height) * 0.05;
     _spinnyNode = [SKShapeNode shapeNodeWithRectOfSize:CGSizeMake(w, w) cornerRadius:w * 0.3];
     _spinnyNode.lineWidth = 2.5;
@@ -95,10 +97,24 @@
                                                 [SKAction fadeOutWithDuration:0.5],
                                                 [SKAction removeFromParent],
                                                 ]]];
-    
-   
-   
+    [self beginAnimation];
 }
+
+- (void)beginAnimation
+{
+    SKNode *beginBg = [self childNodeWithName:@"BeginAnimationBg"];
+    beginBg.xScale = 0;
+    beginBg.yScale = 0;
+    [beginBg runAction:[SKAction rotateToAngle:M_PI * 2 * 2 duration:0.8]];
+    [beginBg runAction:[SKAction scaleTo:1 duration:0.8] completion:^{
+//        _birdNode.alpha = 1;
+//        _birdNode.physicsBody.dynamic = YES;
+        SKSpriteNode *PlayBtn = (SKSpriteNode *)[self childNodeWithName:@"startBtn"];
+        [PlayBtn runAction:[SKAction fadeAlphaTo:1 duration:0.4]];
+    }];
+}
+
+
 #pragma mark - ContactDelegate
 - (void)didBeginContact:(SKPhysicsContact *)contact
 {
@@ -117,6 +133,9 @@
 - (void)updateActionWithVoiceForce:(double)force
 {
 //    NSLog(@"force = %f",force);
+    if (_isGameOver) {
+        return;
+    }
     if (force <= 1) {//声音过小，
         if (_birdNode.status > SbBirdNormal) {
             if (_birdNode.status == SbBirdJump) {
@@ -167,7 +186,6 @@
 
 #pragma mark - touchAction
 
-
 - (void)touchDownAtPoint:(CGPoint)pos {
     SKShapeNode *n = [_spinnyNode copy];
     n.position = pos;
@@ -189,11 +207,27 @@
     [self addChild:n];
 }
 
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     // Run 'Pulse' action from 'Actions.sks'
     //[_label runAction:[SKAction actionNamed:@"Pulse"] withKey:@"fadeInOut"];
     
-    for (UITouch *t in touches) {[self touchDownAtPoint:[t locationInNode:self]];}
+    for (UITouch *t in touches) {
+        SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:[t locationInNode:self]];
+        if ([[touchedNode name] isEqualToString:@"startBtn"] && touchedNode.alpha == 1)   {
+             SKNode *beginBg = [self childNodeWithName:@"BeginAnimationBg"];
+            [beginBg runAction:[SKAction fadeAlphaTo:0 duration:0.1] completion:^{
+                [beginBg removeFromParent];
+            }];
+            [touchedNode removeFromParent];
+            _birdNode.alpha = 1;
+            _birdNode.physicsBody.dynamic = YES;
+            _isGameOver = NO;
+        }else
+        {
+          [self touchDownAtPoint:[t locationInNode:self]];
+        }
+    }
 }
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
     for (UITouch *t in touches) {[self touchMovedToPoint:[t locationInNode:self]];}
@@ -208,6 +242,9 @@
 
 -(void)update:(CFTimeInterval)currentTime {
     // Called before each frame is rendered
+    CGPoint birdPosition = _birdNode.position;
+    birdPosition.x = -198.7;
+    _birdNode.position = birdPosition;
     if (_isGameOver) {
         return;
     }

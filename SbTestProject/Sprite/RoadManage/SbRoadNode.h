@@ -7,6 +7,7 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "GameDefines.h"
 /**
  *道路类型
  */
