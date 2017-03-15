@@ -7,6 +7,8 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "SbRoadNode.h"
+#import "SbMonsterNode.h"
 
 @interface SbRoadBgNode : SKSpriteNode
 /**

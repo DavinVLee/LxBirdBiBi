@@ -55,9 +55,9 @@
     self.physicsBody.restitution = 0;
 
     
-    self.physicsBody.contactTestBitMask = 1;
-    self.physicsBody.categoryBitMask = 2;
-    self.physicsBody.collisionBitMask = 3;
+    self.physicsBody.contactTestBitMask = BirdCategory;
+    self.physicsBody.categoryBitMask = RoadCategory;
+    self.physicsBody.collisionBitMask = 1;
     
     
     //添加植物

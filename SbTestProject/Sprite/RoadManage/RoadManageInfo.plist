@@ -19,8 +19,10 @@
 		<dict>
 			<key>SbroadType</key>
 			<string>3</string>
+			<key>Monster</key>
+			<true/>
 			<key>nextRoadOffsetXscale</key>
-			<string>0</string>
+			<string>0.19</string>
 		</dict>
 		<dict>
 			<key>SbroadType</key>
@@ -37,6 +39,8 @@
 		<dict>
 			<key>SbroadType</key>
 			<string>2</string>
+			<key>Monster</key>
+			<true/>
 			<key>nextRoadOffsetXscale</key>
 			<string>0.19</string>
 		</dict>
@@ -55,6 +59,8 @@
 		<dict>
 			<key>SbroadType</key>
 			<string>2</string>
+			<key>Monster</key>
+			<true/>
 			<key>nextRoadOffsetXscale</key>
 			<string>0.21</string>
 		</dict>
@@ -73,6 +79,8 @@
 		<dict>
 			<key>SbroadType</key>
 			<string>2</string>
+			<key>Monster</key>
+			<true/>
 			<key>nextRoadOffsetXscale</key>
 			<string>0.16</string>
 		</dict>
@@ -109,6 +117,8 @@
 		<dict>
 			<key>SbroadType</key>
 			<string>2</string>
+			<key>Monster</key>
+			<true/>
 			<key>nextRoadOffsetXscale</key>
 			<string>0.19</string>
 		</dict>

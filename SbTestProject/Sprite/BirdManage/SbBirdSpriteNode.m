@@ -17,6 +17,10 @@
  *站立 问题
  */
 @property (strong, nonatomic) NSMutableArray *standTextureArray;
+/**
+ *行走纹理
+ */
+@property (strong, nonatomic) NSMutableArray *walkTextureArray;
 
 @end
 
@@ -30,6 +34,13 @@
         case SbBirdNormal:
         {
             [self setStandAni];
+        }
+            break;
+            case SbBirdWalking:
+        {
+            SKAction *animation = [SKAction animateWithTextures:_jumpTextureArray timePerFrame:0.08];
+            SKAction *action = [SKAction repeatActionForever:animation];
+            [self runAction:action];
         }
             break;
             
@@ -64,9 +75,10 @@
         SKTexture *texture = [SKTexture textureWithImageNamed:[NSString stringWithFormat:@"chicken_jump_000%d",i]];
         [_jumpTextureArray addObject:texture];
     }
-//    SKAction *animation = [SKAction animateWithTextures:_standTextureArray timePerFrame:0.1];
-//    SKAction *action = [SKAction repeatActionForever:animation];
-//    [self runAction:action];
+    
+//    self.walkTextureArray = [NSMutableArray arrayWithArray:@[[SKTexture textureWithImageNamed:@"chicken_walk1"],
+//                                                             [SKTexture textureWithImageNamed:@"chicken_walk2"]]];
+
 }
 
 @end

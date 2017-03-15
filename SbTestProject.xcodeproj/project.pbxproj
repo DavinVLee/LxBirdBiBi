@@ -84,6 +84,9 @@
 		C91D32B91E705B4000B6A625 /* chicken_faild@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C91D32B61E705B4000B6A625 /* chicken_faild@2x.png */; };
 		C91D32BA1E705B4000B6A625 /* chicken_walk1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C91D32B71E705B4000B6A625 /* chicken_walk1@2x.png */; };
 		C91D32BB1E705B4000B6A625 /* chicken_walk2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C91D32B81E705B4000B6A625 /* chicken_walk2@2x.png */; };
+		C91D32C01E70723E00B6A625 /* GameOverNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C91D32BF1E70723E00B6A625 /* GameOverNode.m */; };
+		C91D32C31E70826400B6A625 /* SbMonsterNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C91D32C21E70826400B6A625 /* SbMonsterNode.m */; };
+		C91D32C51E7082F300B6A625 /* SbMonster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C91D32C41E7082F300B6A625 /* SbMonster@2x.png */; };
 		C9627BAF1E69210300B7B1BA /* RoadManageInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9627BAE1E69210300B7B1BA /* RoadManageInfo.plist */; };
 		C9627BD51E694E1F00B7B1BA /* EZAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = C9627BB31E694E1F00B7B1BA /* EZAudio.m */; };
 		C9627BD61E694E1F00B7B1BA /* EZAudioDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = C9627BB51E694E1F00B7B1BA /* EZAudioDevice.m */; };
@@ -215,6 +218,11 @@
 		C91D32B71E705B4000B6A625 /* chicken_walk1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chicken_walk1@2x.png"; sourceTree = "<group>"; };
 		C91D32B81E705B4000B6A625 /* chicken_walk2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chicken_walk2@2x.png"; sourceTree = "<group>"; };
 		C91D32BC1E705E3800B6A625 /* GameDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameDefines.h; sourceTree = "<group>"; };
+		C91D32BE1E70723E00B6A625 /* GameOverNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverNode.h; sourceTree = "<group>"; };
+		C91D32BF1E70723E00B6A625 /* GameOverNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverNode.m; sourceTree = "<group>"; };
+		C91D32C11E70826400B6A625 /* SbMonsterNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SbMonsterNode.h; sourceTree = "<group>"; };
+		C91D32C21E70826400B6A625 /* SbMonsterNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SbMonsterNode.m; sourceTree = "<group>"; };
+		C91D32C41E7082F300B6A625 /* SbMonster@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SbMonster@2x.png"; sourceTree = "<group>"; };
 		C9627BAE1E69210300B7B1BA /* RoadManageInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RoadManageInfo.plist; sourceTree = "<group>"; };
 		C9627BB21E694E1F00B7B1BA /* EZAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZAudio.h; sourceTree = "<group>"; };
 		C9627BB31E694E1F00B7B1BA /* EZAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZAudio.m; sourceTree = "<group>"; };
@@ -375,6 +383,7 @@
 				C9057CB61E672C1F00185BAD /* GameScene.m */,
 				C9057CB71E672C1F00185BAD /* GameScene.sks */,
 				C91D32BC1E705E3800B6A625 /* GameDefines.h */,
+				C91D32BD1E70722900B6A625 /* Tool */,
 				C9627BE61E69C9D300B7B1BA /* BirdManage */,
 				C9057D931E6911C200185BAD /* RoadManage */,
 			);
@@ -384,6 +393,7 @@
 		C9057CBD1E6730A000185BAD /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				C91D32C41E7082F300B6A625 /* SbMonster@2x.png */,
 				C91D32B61E705B4000B6A625 /* chicken_faild@2x.png */,
 				C91D32B71E705B4000B6A625 /* chicken_walk1@2x.png */,
 				C91D32B81E705B4000B6A625 /* chicken_walk2@2x.png */,
@@ -468,8 +478,19 @@
 				C9627BAE1E69210300B7B1BA /* RoadManageInfo.plist */,
 				C9057D971E69122000185BAD /* SbRoadNode.h */,
 				C9057D981E69122000185BAD /* SbRoadNode.m */,
+				C91D32C11E70826400B6A625 /* SbMonsterNode.h */,
+				C91D32C21E70826400B6A625 /* SbMonsterNode.m */,
 			);
 			path = RoadManage;
+			sourceTree = "<group>";
+		};
+		C91D32BD1E70722900B6A625 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				C91D32BE1E70723E00B6A625 /* GameOverNode.h */,
+				C91D32BF1E70723E00B6A625 /* GameOverNode.m */,
+			);
+			path = Tool;
 			sourceTree = "<group>";
 		};
 		C9627BB01E694E0D00B7B1BA /* ThirdPart */ = {
@@ -664,6 +685,7 @@
 				C9057CBA1E672C1F00185BAD /* GameScene.sks in Resources */,
 				C91D32BB1E705B4000B6A625 /* chicken_walk2@2x.png in Resources */,
 				C9627BE41E694E1F00B7B1BA /* Info.plist in Resources */,
+				C91D32C51E7082F300B6A625 /* SbMonster@2x.png in Resources */,
 				C9057CE51E683FC500185BAD /* SbTree1@2x.png in Resources */,
 				C9057CE91E683FC500185BAD /* SbReturn@2x.png in Resources */,
 				C9057D621E68FE8300185BAD /* chicken_jump_00011@2x.png in Resources */,
@@ -792,11 +814,13 @@
 				C9627BD81E694E1F00B7B1BA /* EZAudioFFT.m in Sources */,
 				C9627BE21E694E1F00B7B1BA /* EZPlot.m in Sources */,
 				C9627BD91E694E1F00B7B1BA /* EZAudioFile.m in Sources */,
+				C91D32C01E70723E00B6A625 /* GameOverNode.m in Sources */,
 				C9057D991E69122000185BAD /* SbRoadNode.m in Sources */,
 				C9627BDD1E694E1F00B7B1BA /* EZAudioPlot.m in Sources */,
 				C9057C181E65A2F700185BAD /* ViewController.m in Sources */,
 				C9627BE51E694E1F00B7B1BA /* TPCircularBuffer.c in Sources */,
 				C9627BDE1E694E1F00B7B1BA /* EZAudioPlotGL.m in Sources */,
+				C91D32C31E70826400B6A625 /* SbMonsterNode.m in Sources */,
 				C9057C151E65A2F700185BAD /* AppDelegate.m in Sources */,
 				C9627BD51E694E1F00B7B1BA /* EZAudio.m in Sources */,
 				C9627BE01E694E1F00B7B1BA /* EZMicrophone.m in Sources */,

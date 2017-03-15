@@ -7,7 +7,8 @@
 //
 
 #import "SbRoadBgNode.h"
-#import "SbRoadNode.h"
+
+
 
 @interface SbRoadBgNode ()
 /**
@@ -39,6 +40,7 @@
     
     CGSize superNodeSize = self.parent.frame.size;
     CGFloat offsetX = 0;
+    SKTexture *monsterTexture = [SKTexture textureWithImageNamed:@"SbMonster"];
     for (NSDictionary *roadInfo in mapInfo) {
         
         SbRoadNode *roadNode = [SbRoadNode nodeWithType:[roadInfo[@"SbroadType"] integerValue]];
@@ -54,7 +56,25 @@
         offsetX += [roadInfo[@"nextRoadOffsetXscale"] floatValue] * superNodeSize.width;
         [_roadNodeArray addObject:roadNode];
         
-        
+        if ([roadInfo[@"Monster"] boolValue] == YES) {
+            SbMonsterNode *monster = [SbMonsterNode spriteNodeWithTexture:monsterTexture];
+            monster.physicsBody = [SKPhysicsBody bodyWithTexture:monsterTexture size:monsterTexture.size];
+            monster.physicsBody.restitution = 0;
+            monster.physicsBody.dynamic = YES;
+            monster.physicsBody.affectedByGravity =YES;
+            monster.physicsBody.categoryBitMask = MonsterCategory;
+            monster.physicsBody.contactTestBitMask = BirdCategory;
+            monster.physicsBody.collisionBitMask = ~BirdCategory;
+            monster.position = CGPointMake(roadNode.size.width/2.f - monster.size.width/2.f, roadNode.size.height/2.f + 20);
+            
+            //此处怪物动作，后去需优化
+            SKAction *action = [SKAction repeatAction:
+                                [SKAction sequence:@[[SKAction moveToX:-(roadNode.size.width - monster.size.width)/2.f duration:3],
+                                                                           [SKAction moveToX:(roadNode.size.width - monster.size.width)/2.f duration:3]]]
+                                                count:NSNotFound]; ;
+            [monster runAction:action];
+            [roadNode addChild:monster];
+        }
 
         
         //道路刚体设置
