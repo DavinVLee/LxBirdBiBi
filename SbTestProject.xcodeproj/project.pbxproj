@@ -106,6 +106,7 @@
 		C9627BE41E694E1F00B7B1BA /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9627BD21E694E1F00B7B1BA /* Info.plist */; };
 		C9627BE51E694E1F00B7B1BA /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = C9627BD31E694E1F00B7B1BA /* TPCircularBuffer.c */; };
 		C9627BE91E69C9F100B7B1BA /* SbBirdSpriteNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C9627BE81E69C9F100B7B1BA /* SbBirdSpriteNode.m */; };
+		C9640D8F1E817DA9000F455F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9640D8E1E817DA9000F455F /* UIKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -261,6 +262,7 @@
 		C9627BD41E694E1F00B7B1BA /* TPCircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPCircularBuffer.h; sourceTree = "<group>"; };
 		C9627BE71E69C9F100B7B1BA /* SbBirdSpriteNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SbBirdSpriteNode.h; sourceTree = "<group>"; };
 		C9627BE81E69C9F100B7B1BA /* SbBirdSpriteNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SbBirdSpriteNode.m; sourceTree = "<group>"; };
+		C9640D8E1E817DA9000F455F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F68DFF0A0DA7F8636F6E6026 /* libPods-SbTestProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SbTestProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -269,6 +271,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9640D8F1E817DA9000F455F /* UIKit.framework in Frameworks */,
 				C9057CBC1E672C3400185BAD /* SpriteKit.framework in Frameworks */,
 				C9057C581E66936E00185BAD /* GLKit.framework in Frameworks */,
 				C9057C561E66936700185BAD /* AVFoundation.framework in Frameworks */,
@@ -555,6 +558,7 @@
 		ED87D41FD815D0FA6776906D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C9640D8E1E817DA9000F455F /* UIKit.framework */,
 				C9057CBB1E672C3400185BAD /* SpriteKit.framework */,
 				C9057C571E66936E00185BAD /* GLKit.framework */,
 				C9057C551E66936700185BAD /* AVFoundation.framework */,

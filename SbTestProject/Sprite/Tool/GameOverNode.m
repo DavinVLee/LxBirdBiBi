@@ -11,6 +11,10 @@
 @interface GameOverNode ()
 
 @property (strong, nonatomic) SKSpriteNode *refreshBtnNode;
+/**
+ *当前正确按下手势
+ */
+@property (weak, nonatomic) UITouch *touchRitht;
 
 @end
 
@@ -51,6 +55,16 @@
     for (UITouch *touch in touches) {
         CGPoint point = [touch locationInNode:self];
         if (CGRectContainsPoint(self.refreshBtnNode.frame, point)) {
+            self.touchRitht  = touch;
+        }
+    }
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    for (UITouch *touch in touches) {
+        CGPoint point = [touch locationInNode:self];
+        if (CGRectContainsPoint(self.refreshBtnNode.frame, point) && touch == self.touchRitht) {
             if (self.block) {
                 self.block(0);
                 self.block = nil;
@@ -58,6 +72,9 @@
                     [self removeFromParent];
                 }];
             }
+        }else if (touch == self.touchRitht)
+        {
+            self.touchRitht  = nil;
         }
     }
 }

@@ -34,5 +34,9 @@ typedef NS_ENUM(NSInteger, GameStatus){
 #define kGameOverName @"gameOver" //游戏结束页面
 
 
+/*******************8关于位置及UI大小信息*******************/
+#define kBirdOriginalPosition
+
+
 
 #endif /* GameDefines_h */

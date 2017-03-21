@@ -162,7 +162,9 @@
     
 }
 
-
+/**
+ *在每一次的音频回调中分发事件
+ **/
 - (void)updateActionWithVoiceForce:(double)force
 {
 //    NSLog(@"force = %f",force);
@@ -192,11 +194,16 @@
         if (_birdNode.status > SbBirdNormal) {
             if (_birdNode.status == SbBirdJump) {
                 _birdNode.status = SbBirdDrop;//上一步骤是跳跃，所以此处为下落开始
+                 [_birdNode updateAnimation];
             }else if (_birdNode.status == SbBirdWalking)
             {
                 _birdNode.status = SbBirdNormal;
+                 [_birdNode updateAnimation];
+            }else if(_birdNode.speed == 0)
+            {
+                _birdNode.status = SbBirdNormal;
+                [_birdNode updateAnimation];
             }
-            [_birdNode updateAnimation];
         }
         _voiceToJumoTime = 0;
         return;
@@ -212,6 +219,7 @@
     {
         if (_birdNode.status <= SbBirdJump) {
             NSLog(@"跳跃力量%f",MIN(kBirdJumpMaxForce, (force - 3.5) / 5 * kBirdJumpMaxForce));
+        
            [_birdNode.physicsBody applyForce:CGVectorMake(0, MIN(kBirdJumpMaxForce, (force - 3.5) / 5 * kBirdJumpMaxForce))];
             _birdNode.status = SbBirdJump;
             [_birdNode updateAnimation];
@@ -252,7 +260,7 @@
 
 - (void)gameRefresh
 {
-    _status = GameNormal;
+   
     _birdNode.position = CGPointMake(-198.7, 81.9);
     _birdNode.status = SbBirdNormal;
     [_birdNode updateAnimation];
@@ -262,6 +270,7 @@
     bird_sma.position = CGPointMake(180, -164);
     SKNode *roadBg = [self childNodeWithName:kRoadBgName];
     roadBg.position = CGPointMake(-self.size.width/2.f, self.size.height/2.f);
+     _status = GameNormal;
 }
 
 #pragma mark - touchAction
@@ -289,8 +298,6 @@
 
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    // Run 'Pulse' action from 'Actions.sks'
-    //[_label runAction:[SKAction actionNamed:@"Pulse"] withKey:@"fadeInOut"];
     
     for (UITouch *t in touches) {
         SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:[t locationInNode:self]];

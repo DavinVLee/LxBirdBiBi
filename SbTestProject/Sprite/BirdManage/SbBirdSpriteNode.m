@@ -38,7 +38,7 @@
             break;
             case SbBirdWalking:
         {
-            SKAction *animation = [SKAction animateWithTextures:_jumpTextureArray timePerFrame:0.08];
+            SKAction *animation = [SKAction animateWithTextures:_jumpTextureArray timePerFrame:0.04];
             SKAction *action = [SKAction repeatActionForever:animation];
             [self runAction:action];
         }
