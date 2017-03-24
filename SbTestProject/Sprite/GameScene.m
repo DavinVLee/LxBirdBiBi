@@ -11,6 +11,8 @@
 #import "SbBirdSpriteNode.h"
 #import "GameOverNode.h"
 
+
+
 #define kRoadOffsetMinX 2.5
 #define kBirdJumpMaxForce 1700  //default = 7000
 @interface GameScene ()<SKPhysicsContactDelegate>
@@ -34,6 +36,15 @@
  *道路其实x
  */
 @property (assign, nonatomic) CGFloat roadOriginX;
+
+/**
+ *按键进行行走
+ **/
+@property (assign, nonatomic) BOOL walkState;
+/**
+ *按键进行跳跃
+ */
+@property (assign, nonatomic) BOOL jumpState;
 
 @end
 
@@ -101,19 +112,7 @@
                                                 [SKAction fadeOutWithDuration:0.5],
                                                 [SKAction removeFromParent],
                                                 ]]];
-    
-//    UIButton *but = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-//    but.backgroundColor = [UIColor redColor];
-//    but.userInteractionEnabled = YES;
-//    [but addTarget:self action:@selector(leftButClick:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:but];
-    [self beginAnimation];
-//    self.view.userInteractionEnabled = YES;
-//}
-//
-//- (void)leftButClick:(UIButton *)but
-//{
-//    NSLog(@"点击了左边按钮");
+     [self beginAnimation];
 }
 
 - (void)beginAnimation
@@ -123,8 +122,6 @@
     beginBg.yScale = 0;
     [beginBg runAction:[SKAction rotateToAngle:M_PI * 2 * 2 duration:0.8]];
     [beginBg runAction:[SKAction scaleTo:1 duration:0.8] completion:^{
-//        _birdNode.alpha = 1;
-//        _birdNode.physicsBody.dynamic = YES;
         SKSpriteNode *PlayBtn = (SKSpriteNode *)[self childNodeWithName:kPlayBtnName];
         [PlayBtn runAction:[SKAction fadeAlphaTo:1 duration:0.4]];
     }];
@@ -136,9 +133,15 @@
 {
     if (contact.bodyB.categoryBitMask == BirdCategory && contact.bodyA.categoryBitMask == RoadCategory) {
         NSLog(@"小鸟与道路碰撞了");
+       
         if (contact.contactNormal.dx != 0 && contact.contactNormal.dy == 0 && _birdNode.status == SbBirdDrop) {//说明有横向碰撞，游戏结束
             _status = GameHorSideTouch;
             return;
+        }else
+        {
+            if (_birdNode.status == SbBirdStatic && _status == GameOver) {
+                _status = GameNormal;
+            }
         }
     }else if (contact.bodyA.categoryBitMask == BirdCategory && contact.bodyB.categoryBitMask == MonsterCategory)//小鸟碰撞怪兽，游戏结束
     {
@@ -168,6 +171,15 @@
 - (void)updateActionWithVoiceForce:(double)force
 {
 //    NSLog(@"force = %f",force);
+    
+    double volumeForce = 0;
+    if (self.jumpState) {
+        volumeForce = 10;
+    }else if (self.walkState)
+    {
+        volumeForce = 2.5;
+    }
+    
     switch (_status) {
         case GameOver:
         {
@@ -176,9 +188,9 @@
             break;
          case GameHorSideTouch:
         {
-            if (force > 1 && _birdNode.physicsBody.affectedByGravity) {
+            if (volumeForce > 1 && _birdNode.physicsBody.affectedByGravity) {
               _birdNode.physicsBody.affectedByGravity = NO;
-            }else if(!_birdNode.physicsBody.affectedByGravity || force <= 1){
+            }else if(!_birdNode.physicsBody.affectedByGravity || volumeForce <= 1){
                 _birdNode.physicsBody.affectedByGravity = YES;
             }
             return;
@@ -188,9 +200,13 @@
             break;
     }
     
+    if (_birdNode.status == SbBirdStatic) {
+        return;
+    }
     
     
-    if (force <= 1) {//声音过小，
+    
+    if (volumeForce <= 1) {//声音过小，
         if (_birdNode.status > SbBirdNormal) {
             if (_birdNode.status == SbBirdJump) {
                 _birdNode.status = SbBirdDrop;//上一步骤是跳跃，所以此处为下落开始
@@ -207,8 +223,8 @@
         }
         _voiceToJumoTime = 0;
         return;
-    }else if (force <= 3.5) { //表示行走状态
-        CGFloat scrollForce = force/3 * kRoadOffsetMinX;
+    }else if (volumeForce <= 3.5) { //表示行走状态
+        CGFloat scrollForce = volumeForce/3 * kRoadOffsetMinX;
         if (_birdNode.status == SbBirdNormal ) {
             _birdNode.status = SbBirdWalking;
             [_birdNode updateAnimation];
@@ -218,9 +234,9 @@
     }else
     {
         if (_birdNode.status <= SbBirdJump) {
-            NSLog(@"跳跃力量%f",MIN(kBirdJumpMaxForce, (force - 3.5) / 5 * kBirdJumpMaxForce));
+            NSLog(@"跳跃力量%f",MIN(kBirdJumpMaxForce, (volumeForce - 3.5) / 5 * kBirdJumpMaxForce));
         
-           [_birdNode.physicsBody applyForce:CGVectorMake(0, MIN(kBirdJumpMaxForce, (force - 3.5) / 5 * kBirdJumpMaxForce))];
+           [_birdNode.physicsBody applyForce:CGVectorMake(0, MIN(kBirdJumpMaxForce, (volumeForce - 3.5) / 5 * kBirdJumpMaxForce))];
             _birdNode.status = SbBirdJump;
             [_birdNode updateAnimation];
         }
@@ -249,28 +265,30 @@
 - (void)gameOverWithPoint:(CGPoint)point
 {
     _status = GameOver;
-    GameOverNode *overNode = [GameOverNode getDefaultOverNode:^(NSInteger index) {
-        [self gameRefresh];
-    }];
-    overNode.size = self.size;
-    [self addChild:overNode];
-    
-    overNode.name = kGameOverName;
+    GameOverNode *overNode = (GameOverNode *)[self childNodeWithName:kGameOverName];
+    if (!overNode) {
+       overNode = [GameOverNode getDefaultOverNode:^(NSInteger index) {
+            [self gameRefresh];
+        }];
+        overNode.size = self.size;
+        [self addChild:overNode];
+        
+        overNode.name = kGameOverName;
+
+    }
 }
 
 - (void)gameRefresh
 {
    
     _birdNode.position = CGPointMake(-198.7, 81.9);
-    _birdNode.status = SbBirdNormal;
-    [_birdNode updateAnimation];
+    _birdNode.status = SbBirdStatic;//此时静止直至落地后可操作
     _voiceToJumoTime = 0;
     _birdNode.physicsBody.collisionBitMask = ~MonsterCategory;
     SKSpriteNode *bird_sma = (SKSpriteNode *)[self childNodeWithName:kBird_smaName];
     bird_sma.position = CGPointMake(180, -164);
     SKNode *roadBg = [self childNodeWithName:kRoadBgName];
     roadBg.position = CGPointMake(-self.size.width/2.f, self.size.height/2.f);
-     _status = GameNormal;
 }
 
 #pragma mark - touchAction
@@ -310,7 +328,14 @@
             _birdNode.alpha = 1;
             _birdNode.physicsBody.dynamic = YES;
             _status = GameNormal;
-        }else
+        }else if ([[touchedNode name] isEqualToString:@"jumpBtn"])
+        {
+            self.jumpState = YES;
+        }else if ([[touchedNode name] isEqualToString:@"walkBtn"])
+        {
+            self.walkState = YES;
+        }
+        else
         {
           [self touchDownAtPoint:[t locationInNode:self]];
         }
@@ -319,8 +344,25 @@
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
     for (UITouch *t in touches) {[self touchMovedToPoint:[t locationInNode:self]];}
 }
+
+
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    for (UITouch *t in touches) {[self touchUpAtPoint:[t locationInNode:self]];}
+    for (UITouch *t in touches) {
+        SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:[t locationInNode:self]];
+       if ([[touchedNode name] isEqualToString:@"jumpBtn"])
+        {
+            self.jumpState = NO;
+        }else if ([[touchedNode name] isEqualToString:@"walkBtn"])
+        {
+            self.walkState = NO;
+        }else
+        {
+          [self touchUpAtPoint:[t locationInNode:self]];
+        }
+        
+    }
+    self.jumpState = NO;
+    self.walkState = NO;
 }
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
     for (UITouch *t in touches) {[self touchUpAtPoint:[t locationInNode:self]];}
@@ -328,17 +370,15 @@
 
 
 -(void)update:(CFTimeInterval)currentTime {
-    // Called before each frame is rendered
-//    CGPoint birdPosition = _birdNode.position;
-//    birdPosition.x = -198.7;
-//    _birdNode.position = birdPosition;
     if (_status == GameOver) {
         return;
     }
     
-    if (_birdNode.position.y <=  - self.size.height/2.f) {
+    if (_birdNode.position.y <=  - self.size.height/2.f && _status != GameOver) {
+         _status = GameOver;
         NSLog(@"游戏结束了");
-        
+        self.walkState = NO;
+        self.jumpState = NO;
         [self gameOverWithPoint:_birdNode.position];
     } else if (_birdNode.status == SbBirdJump) {
         self.voiceToJumoTime += currentTime - self.currentTime;

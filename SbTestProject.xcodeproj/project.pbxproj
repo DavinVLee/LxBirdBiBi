@@ -24,8 +24,6 @@
 		C9057CB91E672C1F00185BAD /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C9057CB61E672C1F00185BAD /* GameScene.m */; };
 		C9057CBA1E672C1F00185BAD /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = C9057CB71E672C1F00185BAD /* GameScene.sks */; };
 		C9057CBC1E672C3400185BAD /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9057CBB1E672C3400185BAD /* SpriteKit.framework */; };
-		C9057CCF1E67E61C00185BAD /* AudioManage.m in Sources */ = {isa = PBXBuildFile; fileRef = C9057CCE1E67E61C00185BAD /* AudioManage.m */; };
-		C9057CD11E67E91E00185BAD /* AudioManageBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9057CD01E67E91E00185BAD /* AudioManageBridge.mm */; };
 		C9057CE11E683FC500185BAD /* SbRoad3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9057CD31E683FC500185BAD /* SbRoad3@2x.png */; };
 		C9057CE21E683FC500185BAD /* SbBackgroundImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9057CD41E683FC500185BAD /* SbBackgroundImage@2x.png */; };
 		C9057CE31E683FC500185BAD /* SbRoad1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9057CD51E683FC500185BAD /* SbRoad1@2x.png */; };
@@ -155,9 +153,6 @@
 		C9057CB61E672C1F00185BAD /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
 		C9057CB71E672C1F00185BAD /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		C9057CBB1E672C3400185BAD /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
-		C9057CCD1E67E61C00185BAD /* AudioManage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioManage.h; sourceTree = "<group>"; };
-		C9057CCE1E67E61C00185BAD /* AudioManage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioManage.m; sourceTree = "<group>"; };
-		C9057CD01E67E91E00185BAD /* AudioManageBridge.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioManageBridge.mm; sourceTree = "<group>"; };
 		C9057CD31E683FC500185BAD /* SbRoad3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SbRoad3@2x.png"; sourceTree = "<group>"; };
 		C9057CD41E683FC500185BAD /* SbBackgroundImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SbBackgroundImage@2x.png"; sourceTree = "<group>"; };
 		C9057CD51E683FC500185BAD /* SbRoad1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SbRoad1@2x.png"; sourceTree = "<group>"; };
@@ -337,9 +332,6 @@
 				C9057C141E65A2F700185BAD /* AppDelegate.m */,
 				C9057C161E65A2F700185BAD /* ViewController.h */,
 				C9057C171E65A2F700185BAD /* ViewController.m */,
-				C9057CD01E67E91E00185BAD /* AudioManageBridge.mm */,
-				C9057CCD1E67E61C00185BAD /* AudioManage.h */,
-				C9057CCE1E67E61C00185BAD /* AudioManage.m */,
 				C9057CB31E672C0B00185BAD /* Sprite */,
 				C9057C191E65A2F700185BAD /* Main.storyboard */,
 				C9057C1C1E65A2F700185BAD /* Assets.xcassets */,
@@ -830,12 +822,10 @@
 				C9627BE01E694E1F00B7B1BA /* EZMicrophone.m in Sources */,
 				C9627BD71E694E1F00B7B1BA /* EZAudioDisplayLink.m in Sources */,
 				C9627BE91E69C9F100B7B1BA /* SbBirdSpriteNode.m in Sources */,
-				C9057CD11E67E91E00185BAD /* AudioManageBridge.mm in Sources */,
 				C9627BDF1E694E1F00B7B1BA /* EZAudioUtilities.m in Sources */,
 				C9627BDC1E694E1F00B7B1BA /* EZAudioPlayer.m in Sources */,
 				C9627BE31E694E1F00B7B1BA /* EZRecorder.m in Sources */,
 				C9057CB91E672C1F00185BAD /* GameScene.m in Sources */,
-				C9057CCF1E67E61C00185BAD /* AudioManage.m in Sources */,
 				C9057D961E6911F000185BAD /* SbRoadBgNode.m in Sources */,
 				C9627BE11E694E1F00B7B1BA /* EZOutput.m in Sources */,
 				C9057C121E65A2F700185BAD /* main.m in Sources */,

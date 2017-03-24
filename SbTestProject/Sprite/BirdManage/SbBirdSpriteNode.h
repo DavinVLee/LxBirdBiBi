@@ -13,6 +13,7 @@ typedef NS_ENUM(NSInteger, SbBirdStatus){
     SbBirdWalking,//表示行走状态
     SbBirdJump,//表示跳跃状态
     SbBirdDrop,//表示下落状态
+    SbBirdStatic,//表示静止，不做任何操作
 };
 
 @interface SbBirdSpriteNode : SKSpriteNode

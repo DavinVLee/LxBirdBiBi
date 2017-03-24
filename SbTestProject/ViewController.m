@@ -180,7 +180,6 @@
 }
 
 #pragma mark - EZMicrophoneDelegate
-#warning Thread Safety
 //
 // Note that any callback that provides streamed audio data (like streaming
 // microphone input) happens on a separate audio thread that should not be

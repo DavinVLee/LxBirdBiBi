@@ -48,6 +48,7 @@
     }
     
     self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:CGRectMake(-self.size.width/2.f, -self.size.height/2.f - offsety, self.size.width, self.size.height - offsety)];
+
     self.physicsBody.linearDamping = 1.0;
     self.physicsBody.allowsRotation = NO;
     self.physicsBody.affectedByGravity = NO;
