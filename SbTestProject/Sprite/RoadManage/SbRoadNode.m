@@ -70,4 +70,10 @@
     
 }
 
+- (NSInteger)getScore
+{
+    _hasFinished = YES;
+    return 100;
+}
+
 @end

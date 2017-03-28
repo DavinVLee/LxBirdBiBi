@@ -7,6 +7,7 @@
 //
 
 #import "GameOverNode.h"
+#import "GameDefines.h"
 
 @interface GameOverNode ()
 
@@ -38,6 +39,7 @@
     self.userInteractionEnabled = YES;
     
     SKLabelNode *titleLabel = [SKLabelNode labelNodeWithText:@"失败了"];
+    titleLabel.fontName = kDefaultFontName;
     titleLabel.fontSize = 25;
     titleLabel.fontColor = [SKColor whiteColor];
     titleLabel.position = CGPointMake(0, 40);

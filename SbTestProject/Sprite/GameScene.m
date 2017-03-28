@@ -10,10 +10,11 @@
 #import "SbRoadBgNode.h"
 #import "SbBirdSpriteNode.h"
 #import "GameOverNode.h"
+#import "GameScoreNode.h"
 
 
 
-#define kRoadOffsetMinX 2.5
+#define kRoadOffsetMinX 2.75
 #define kBirdJumpMaxForce 1700  //default = 7000
 @interface GameScene ()<SKPhysicsContactDelegate>
 
@@ -27,6 +28,10 @@
  *游戏状态
  */
 @property (assign, nonatomic) GameStatus status;
+/**
+ *游戏分数
+ **/
+@property (assign, nonatomic) NSInteger GameScore;
 
 /**
  *道路总长度
@@ -50,7 +55,7 @@
 
 @implementation GameScene {
     SKShapeNode *_spinnyNode;
-//    SKLabelNode *_label;
+    //    SKLabelNode *_label;
     /**
      *小鸟精灵
      */
@@ -69,28 +74,22 @@
     
     _status = GameOver;
     self.physicsWorld.contactDelegate = self;
-    self.physicsWorld.gravity = CGVectorMake(0, -4.5);
-     //小鸟设置
+    self.GameScore = 0;
+    self.physicsWorld.gravity = CGVectorMake(0, - 0.6);
+    //小鸟设置
     _birdNode = (SbBirdSpriteNode *)[self childNodeWithName:kBirdName];
-//    _birdNode.physicsBody = [SKPhysicsBody bodyWithTexture:_birdNode.texture size:_birdNode.texture.size];
-    _birdNode.physicsBody.dynamic = NO;
-    _birdNode.physicsBody.linearDamping = 1.0;//移动时的摩擦
-    _birdNode.physicsBody.allowsRotation = NO;//允许旋转
-    _birdNode.physicsBody.restitution = 0;//从另一个物体弹出时剩余多少能量
-    _birdNode.physicsBody.density = 1.0;//密度的倍数默认为1；
-    _birdNode.physicsBody.affectedByGravity = YES;
-    _birdNode.physicsBody.contactTestBitMask = RoadCategory | MonsterCategory;
-    _birdNode.physicsBody.categoryBitMask = BirdCategory;
-    _birdNode.physicsBody.collisionBitMask = ~MonsterCategory;
-    _birdNode.status = SbBirdDrop;
+    _birdNode.status = SbBirdStatic;
     [_birdNode setupDefaultTexture];
-    _birdNode.status = SbBirdNormal;
-    [_birdNode updateAnimation];
+    
+    [_birdNode runAction:[SKAction fadeAlphaTo:1 duration:1.0] completion:^{
+        _birdNode.physicsBody.dynamic = YES;
+        [_birdNode updateAnimation];
+    }];
     //进度条
     _bird_smaNode = (SKSpriteNode *)[self childNodeWithName:kBird_smaName];
     
     
-      _voiceToJumoTime = 0;
+    _voiceToJumoTime = 0;
     //设置道路背景
     _roadBgNode = (SbRoadBgNode *)[self childNodeWithName:kRoadBgName];
     _roadBgNode.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(10, 10)];
@@ -99,8 +98,8 @@
     _roadTotalLength = [_roadBgNode setupDefaultRoadWithMapIndex:1];
     _roadOriginX = _roadBgNode.position.x;
     
-    
-//    设置手势点击效果
+    [self alphaAnimationSetup];
+    //    设置手势点击效果
     
     CGFloat w = (self.size.width + self.size.height) * 0.05;
     _spinnyNode = [SKShapeNode shapeNodeWithRectOfSize:CGSizeMake(w, w) cornerRadius:w * 0.3];
@@ -112,20 +111,19 @@
                                                 [SKAction fadeOutWithDuration:0.5],
                                                 [SKAction removeFromParent],
                                                 ]]];
-     [self beginAnimation];
+    
 }
 
-- (void)beginAnimation
+- (void)alphaAnimationSetup
 {
-    SKNode *beginBg = [self childNodeWithName:kBeginAniTitleName];
-    beginBg.xScale = 0;
-    beginBg.yScale = 0;
-    [beginBg runAction:[SKAction rotateToAngle:M_PI * 2 * 2 duration:0.8]];
-    [beginBg runAction:[SKAction scaleTo:1 duration:0.8] completion:^{
-        SKSpriteNode *PlayBtn = (SKSpriteNode *)[self childNodeWithName:kPlayBtnName];
-        [PlayBtn runAction:[SKAction fadeAlphaTo:1 duration:0.4]];
-    }];
+    for (SKNode *node in self.children) {
+        if (node != _birdNode || node != _roadBgNode) {
+            [node runAction:[SKAction fadeAlphaTo:1.0 duration:1.0]];
+        }
+    }
 }
+
+
 
 
 #pragma mark - ContactDelegate
@@ -133,15 +131,39 @@
 {
     if (contact.bodyB.categoryBitMask == BirdCategory && contact.bodyA.categoryBitMask == RoadCategory) {
         NSLog(@"小鸟与道路碰撞了");
-       
+        
         if (contact.contactNormal.dx != 0 && contact.contactNormal.dy == 0 && _birdNode.status == SbBirdDrop) {//说明有横向碰撞，游戏结束
             _status = GameHorSideTouch;
             return;
         }else
         {
-            if (_birdNode.status == SbBirdStatic && _status == GameOver) {
-                _status = GameNormal;
+            SbRoadNode *roadNode;
+            if ([[contact.bodyA node] isKindOfClass:[SbRoadNode class]]) {
+                roadNode = (SbRoadNode *)[contact.bodyA node];
+            }else
+            {
+                roadNode = (SbRoadNode *)[contact.bodyB node];
+                
             }
+            
+            if (_birdNode.status == SbBirdStatic &&
+                             _status == GameOver &&
+                      roadNode.index == 0/*当前碰撞道路为第一个时*/) {
+                _status = GameNormal;
+                self.physicsWorld.gravity = CGVectorMake(0, - 4.5);
+                _birdNode.alpha = 1;
+                self.GameScore = 0;
+            }
+            else if(!roadNode.hasFinished && roadNode.index > 0)//避免重复添加分数
+            {
+                self.GameScore = _GameScore + [roadNode getScore];
+                if (roadNode.isFinishRoad) {//到达终点
+                    [self gameFinish];
+                    return;
+                }
+            }
+             self.physicsWorld.gravity = CGVectorMake(0, - 4.5);
+            //
         }
     }else if (contact.bodyA.categoryBitMask == BirdCategory && contact.bodyB.categoryBitMask == MonsterCategory)//小鸟碰撞怪兽，游戏结束
     {
@@ -170,9 +192,9 @@
  **/
 - (void)updateActionWithVoiceForce:(double)force
 {
-//    NSLog(@"force = %f",force);
+    //    NSLog(@"force = %f",force);
     
-    double volumeForce = 0;
+    double volumeForce = force;
     if (self.jumpState) {
         volumeForce = 10;
     }else if (self.walkState)
@@ -186,10 +208,10 @@
             return;
         }
             break;
-         case GameHorSideTouch:
+        case GameHorSideTouch:
         {
             if (volumeForce > 1 && _birdNode.physicsBody.affectedByGravity) {
-              _birdNode.physicsBody.affectedByGravity = NO;
+                _birdNode.physicsBody.affectedByGravity = NO;
             }else if(!_birdNode.physicsBody.affectedByGravity || volumeForce <= 1){
                 _birdNode.physicsBody.affectedByGravity = YES;
             }
@@ -204,18 +226,20 @@
         return;
     }
     
-    
-    
     if (volumeForce <= 1) {//声音过小，
         if (_birdNode.status > SbBirdNormal) {
             if (_birdNode.status == SbBirdJump) {
                 _birdNode.status = SbBirdDrop;//上一步骤是跳跃，所以此处为下落开始
-                 [_birdNode updateAnimation];
+                [_birdNode updateAnimation];
             }else if (_birdNode.status == SbBirdWalking)
             {
                 _birdNode.status = SbBirdNormal;
-                 [_birdNode updateAnimation];
+                [_birdNode updateAnimation];
             }else if(_birdNode.speed == 0)
+            {
+                _birdNode.status = SbBirdNormal;
+                [_birdNode updateAnimation];
+            }else if (_birdNode.physicsBody.allContactedBodies.count > 0)//此时说明小鸟至少有一个碰撞体，则切换正常状态
             {
                 _birdNode.status = SbBirdNormal;
                 [_birdNode updateAnimation];
@@ -235,14 +259,22 @@
     {
         if (_birdNode.status <= SbBirdJump) {
             NSLog(@"跳跃力量%f",MIN(kBirdJumpMaxForce, (volumeForce - 3.5) / 5 * kBirdJumpMaxForce));
-        
-           [_birdNode.physicsBody applyForce:CGVectorMake(0, MIN(kBirdJumpMaxForce, (volumeForce - 3.5) / 5 * kBirdJumpMaxForce))];
+            
+            [_birdNode.physicsBody applyForce:CGVectorMake(0, MIN(kBirdJumpMaxForce, (volumeForce - 3.5) / 5 * kBirdJumpMaxForce))];
             _birdNode.status = SbBirdJump;
             [_birdNode updateAnimation];
         }
         [self roadScrollWithOffsetX:_roadBgNode.position.x - kRoadOffsetMinX];
-       
+        
     }
+}
+
+#pragma mark - SetMethod
+- (void)setGameScore:(NSInteger)GameScore
+{
+    _GameScore = GameScore;
+    SKLabelNode *scoreLabelNode = (SKLabelNode *)[self childNodeWithName:kGameScoreLabelName];
+    scoreLabelNode.text = [NSString stringWithFormat:@"%ld",GameScore];
 }
 
 #pragma mark - FUCTION
@@ -254,9 +286,9 @@
     if (_status == GameOver) {
         return;
     }
-     _roadBgNode.position = CGPointMake(offset_x, _roadBgNode.position.y);
+    _roadBgNode.position = CGPointMake(offset_x, _roadBgNode.position.y);
     _bird_smaNode.position = CGPointMake(180 + ( _roadOriginX - offset_x) / _roadTotalLength  * 125,_bird_smaNode.position.y);
-
+    
 }
 
 /**
@@ -267,28 +299,59 @@
     _status = GameOver;
     GameOverNode *overNode = (GameOverNode *)[self childNodeWithName:kGameOverName];
     if (!overNode) {
-       overNode = [GameOverNode getDefaultOverNode:^(NSInteger index) {
+        self.physicsWorld.gravity = CGVectorMake(0, - 0.6);
+        overNode = [GameOverNode getDefaultOverNode:^(NSInteger index) {
             [self gameRefresh];
         }];
         overNode.size = self.size;
         [self addChild:overNode];
         
         overNode.name = kGameOverName;
-
+        
     }
 }
 
 - (void)gameRefresh
 {
-   
+    _birdNode.physicsBody.dynamic = NO;
+    [_birdNode resetTexture];
+    _birdNode.alpha = 0;
     _birdNode.position = CGPointMake(-198.7, 81.9);
-    _birdNode.status = SbBirdStatic;//此时静止直至落地后可操作
+    self.GameScore = 0;
     _voiceToJumoTime = 0;
-    _birdNode.physicsBody.collisionBitMask = ~MonsterCategory;
+    _birdNode.status = SbBirdStatic;//此时静止直至落地后可操作
+    [_birdNode runAction:[SKAction fadeAlphaTo:1 duration:0.6] completion:^{
+        _birdNode.physicsBody.dynamic = YES;
+        [_birdNode updateAnimation];
+        _birdNode.physicsBody.collisionBitMask = ~MonsterCategory;
+    }];
+    
     SKSpriteNode *bird_sma = (SKSpriteNode *)[self childNodeWithName:kBird_smaName];
     bird_sma.position = CGPointMake(180, -164);
-    SKNode *roadBg = [self childNodeWithName:kRoadBgName];
-    roadBg.position = CGPointMake(-self.size.width/2.f, self.size.height/2.f);
+    SbRoadBgNode *roadBg = (SbRoadBgNode *)[self childNodeWithName:kRoadBgName];
+    [roadBg runAction:[SKAction moveToX:-self.size.width/2.f duration:0.2]];
+    [roadBg resetDefault];
+
+}
+
+- (void)gameFinish
+{
+    _birdNode.status = SbBirdStatic;
+    _status = GameOver;
+    [_birdNode gameSuccess];
+    
+}
+
+
+#pragma mark - ClickAction
+- (void)clickBackBtn:(SKNode *)node
+{
+    [self.view presentScene:self.sceneToReturn transition:[SKTransition crossFadeWithDuration:0.7]];
+    [self runAction:[SKAction fadeAlphaTo:0 duration:1.0] completion:^{
+        
+        [self removeAllActions];
+        [self removeFromParent];
+    }];
 }
 
 #pragma mark - touchAction
@@ -319,25 +382,28 @@
     
     for (UITouch *t in touches) {
         SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:[t locationInNode:self]];
-        if ([[touchedNode name] isEqualToString:kPlayBtnName] && touchedNode.alpha == 1)   {
-             SKNode *beginBg = [self childNodeWithName:kBeginAniTitleName];
-            [beginBg runAction:[SKAction fadeAlphaTo:0 duration:0.1] completion:^{
-                [beginBg removeFromParent];
-            }];
-            [touchedNode removeFromParent];
-            _birdNode.alpha = 1;
-            _birdNode.physicsBody.dynamic = YES;
-            _status = GameNormal;
-        }else if ([[touchedNode name] isEqualToString:@"jumpBtn"])
+        if ([[touchedNode name] isEqualToString:@"jumpBtn"])
         {
             self.jumpState = YES;
         }else if ([[touchedNode name] isEqualToString:@"walkBtn"])
         {
             self.walkState = YES;
         }
+        else if ([[touchedNode name] isEqualToString:kBackBtnName])
+        {
+            [self clickBackBtn:touchedNode];
+        }else if ([[touchedNode name] isEqualToString:kGameRefreshName])
+        {
+            _status = GameOver;
+            NSLog(@"游戏结束了");
+            self.walkState = NO;
+            self.jumpState = NO;
+            self.physicsWorld.gravity = CGVectorMake(0, - 0.6);
+            [self gameRefresh];
+        }
         else
         {
-          [self touchDownAtPoint:[t locationInNode:self]];
+            [self touchDownAtPoint:[t locationInNode:self]];
         }
     }
 }
@@ -349,7 +415,7 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     for (UITouch *t in touches) {
         SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:[t locationInNode:self]];
-       if ([[touchedNode name] isEqualToString:@"jumpBtn"])
+        if ([[touchedNode name] isEqualToString:@"jumpBtn"])
         {
             self.jumpState = NO;
         }else if ([[touchedNode name] isEqualToString:@"walkBtn"])
@@ -357,7 +423,7 @@
             self.walkState = NO;
         }else
         {
-          [self touchUpAtPoint:[t locationInNode:self]];
+            [self touchUpAtPoint:[t locationInNode:self]];
         }
         
     }
@@ -375,11 +441,12 @@
     }
     
     if (_birdNode.position.y <=  - self.size.height/2.f && _status != GameOver) {
-         _status = GameOver;
+        _status = GameOver;
         NSLog(@"游戏结束了");
         self.walkState = NO;
         self.jumpState = NO;
         [self gameOverWithPoint:_birdNode.position];
+        return;
     } else if (_birdNode.status == SbBirdJump) {
         self.voiceToJumoTime += currentTime - self.currentTime;
         if (self.voiceToJumoTime >= 0.09) {

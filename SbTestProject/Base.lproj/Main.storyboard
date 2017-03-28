@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -21,13 +20,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kEx-LQ-3Nh" customClass="EZAudioPlot">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kEx-LQ-3Nh" customClass="EZAudioPlot">
                                 <rect key="frame" x="0.0" y="0.0" width="667" height="170"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="170" id="KWR-Ct-kvf"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="kEx-LQ-3Nh" secondAttribute="trailing" id="2nN-jM-tZh"/>
+                            <constraint firstItem="kEx-LQ-3Nh" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="4nf-SV-ijf"/>
+                            <constraint firstItem="kEx-LQ-3Nh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="vfS-Pf-0Yy"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="audioPlot" destination="kEx-LQ-3Nh" id="GVz-uD-WVF"/>

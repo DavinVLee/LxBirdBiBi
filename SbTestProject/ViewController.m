@@ -12,15 +12,21 @@
 #import <SpriteKit/SpriteKit.h>
 #import <GameplayKit/GameplayKit.h>
 #import "GameScene.h"
+#import "MainScene.h"
 
 @interface ViewController () <EZMicrophoneDelegate,
                               UIPickerViewDataSource,
-                              UIPickerViewDelegate>\
+                              UIPickerViewDelegate,
+                              MainSceneDelegate>
 
 /**
  *游戏场景
  */
 @property (strong, nonatomic) GameScene *scene;
+/**
+ *主界面场景
+ **/
+@property (strong, nonatomic) MainScene *mainScene;
 
 
 
@@ -115,23 +121,39 @@
 - (void)gameScenceSetupDefault
 {
     // Load the SKScene from 'GameScene.sks'
-    GameScene *scene = (GameScene *)[SKScene nodeWithFileNamed:@"GameScene"];
+//    GameScene *scene = (GameScene *)[SKScene nodeWithFileNamed:@"GameScene"];
+//    
+//    // Set the scale mode to scale to fit the window
+//    scene.scaleMode = SKSceneScaleModeAspectFill;
+//    
+//    SKView *skView = (SKView *)self.view;
+//    
+//    // Present the scene
+//    [skView presentScene:scene];
+//    
+//    skView.showsFPS = YES;
+//    skView.showsNodeCount = YES;
     
-    // Set the scale mode to scale to fit the window
+    MainScene *scene = (MainScene *)[SKScene nodeWithFileNamed:@"MainScene"];
     scene.scaleMode = SKSceneScaleModeAspectFill;
-    
+    scene.GsSetdelegate = self;
     SKView *skView = (SKView *)self.view;
-    
-    // Present the scene
     [skView presentScene:scene];
+//    skView.showsFPS = YES;
+//    skView.showsNodeCount = YES;
+//    skView.showsDrawCount = YES;
+    self.mainScene = scene;
     
-    skView.showsFPS = YES;
-    skView.showsNodeCount = YES;
-    self.scene = scene;
 }
 
 - (BOOL)prefersStatusBarHidden {
     return YES;
+}
+
+#pragma mark - MainSceneDelegate
+- (void)gameSceneSet:(GameScene *)scene
+{
+    self.scene = scene;
 }
 
 #pragma mark - UIPickerViewDataSource

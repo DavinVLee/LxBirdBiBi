@@ -41,9 +41,15 @@
     CGSize superNodeSize = self.parent.frame.size;
     CGFloat offsetX = 0;
     SKTexture *monsterTexture = [SKTexture textureWithImageNamed:@"SbMonster"];
+    NSInteger roadIndex = 0;
     for (NSDictionary *roadInfo in mapInfo) {
         
         SbRoadNode *roadNode = [SbRoadNode nodeWithType:[roadInfo[@"SbroadType"] integerValue]];
+        roadNode.index = roadIndex;
+        roadIndex ++;
+        if (roadIndex == mapInfo.count) {
+            roadNode.isFinishRoad = YES;//当前道路为终点
+        }
         [self addChild:roadNode];
         roadNode.anchorPoint = CGPointMake(0.5, 0.5);
         CGSize roadSize = roadNode.frame.size;
@@ -84,6 +90,13 @@
     
     return offsetX;
     
+}
+
+- (void)resetDefault
+{
+    for (SbRoadNode *roadNode in self.roadNodeArray) {
+        roadNode.hasFinished = NO;
+    }
 }
 
 #pragma mark - GetMethod

@@ -29,5 +29,15 @@ typedef NS_ENUM(NSInteger, SbBirdStatus){
 - (void)setupDefaultTexture;
 
 - (void)updateAnimation;
+/**
+ *重置纹理
+ **/
+- (void)resetTexture;
+
+
+/**
+ *小鸟成功动画
+ **/
+- (void)gameSuccess;
 
 @end

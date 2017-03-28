@@ -10,6 +10,11 @@
 
 @interface GameScene : SKScene
 
+/**
+ *需要返回到的场景
+ */
+@property (weak, nonatomic) SKScene *sceneToReturn;
+
 - (void)updateActionWithVoiceForce:(double)force;
 
 @end

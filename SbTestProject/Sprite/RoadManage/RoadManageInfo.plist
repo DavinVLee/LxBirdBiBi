@@ -8,13 +8,13 @@
 			<key>SbroadType</key>
 			<string>1</string>
 			<key>nextRoadOffsetXscale</key>
-			<string>0.19</string>
+			<string>0.16</string>
 		</dict>
 		<dict>
 			<key>SbroadType</key>
 			<string>2</string>
 			<key>nextRoadOffsetXscale</key>
-			<string>0.18</string>
+			<string>0.17</string>
 		</dict>
 		<dict>
 			<key>SbroadType</key>
@@ -26,7 +26,7 @@
 			<key>SbroadType</key>
 			<string>3</string>
 			<key>nextRoadOffsetXscale</key>
-			<string>0.20</string>
+			<string>0.15</string>
 		</dict>
 		<dict>
 			<key>SbroadType</key>

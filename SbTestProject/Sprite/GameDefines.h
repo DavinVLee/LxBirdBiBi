@@ -27,12 +27,20 @@ typedef NS_ENUM(NSInteger, GameStatus){
  *节点name
  */
 #define kBirdName @"bird"//小鸟
+#define kBackGroundSunName @"BackGroundSunName"//太阳
+#define kGameScoreLabelName @"GameScoreLabelName"//分数显示
 #define kRoadBgName @"RoadBg"//道路背景
 #define kBird_smaName @"bird_sma"//进度条小鸟
 #define kPlayBtnName  @"startBtn"//开始按钮
 #define kBeginAniTitleName @"BeginAnimationBg"//开始页面标题
 #define kGameOverName @"gameOver" //游戏结束页面
 
+
+#define kBackBtnName @"backBtnName"//回退按钮
+#define kGameRefreshName @"GameRefresh"//刷新按钮
+
+
+#define kDefaultFontName @"HYLeMiaoTiW"//默认喵体字体
 
 /*******************8关于位置及UI大小信息*******************/
 #define kBirdOriginalPosition

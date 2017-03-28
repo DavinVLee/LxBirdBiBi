@@ -17,5 +17,9 @@
  *@return 道路总长度
  */
 - (CGFloat)setupDefaultRoadWithMapIndex:(NSInteger)index;
+/**
+ *道路重置
+ **/
+- (void)resetDefault;
 
 @end
