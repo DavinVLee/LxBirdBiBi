@@ -40,6 +40,8 @@
 /**
  *道路其实x
  */
+
+/***************************************************添加按键实现动作*********************************/
 @property (assign, nonatomic) CGFloat roadOriginX;
 
 /**
@@ -54,8 +56,10 @@
 @end
 
 @implementation GameScene {
-    SKShapeNode *_spinnyNode;
-    //    SKLabelNode *_label;
+     /**
+      *手指点击粒子效果
+      **/
+    SKEmitterNode *touchEmitterNode;
     /**
      *小鸟精灵
      */
@@ -100,17 +104,14 @@
     
     [self alphaAnimationSetup];
     //    设置手势点击效果
-    
-    CGFloat w = (self.size.width + self.size.height) * 0.05;
-    _spinnyNode = [SKShapeNode shapeNodeWithRectOfSize:CGSizeMake(w, w) cornerRadius:w * 0.3];
-    _spinnyNode.lineWidth = 2.5;
-    
-    [_spinnyNode runAction:[SKAction repeatActionForever:[SKAction rotateByAngle:M_PI duration:1]]];
-    [_spinnyNode runAction:[SKAction sequence:@[
-                                                [SKAction waitForDuration:0.5],
-                                                [SKAction fadeOutWithDuration:0.5],
-                                                [SKAction removeFromParent],
-                                                ]]];
+
+    //手指touch粒子配置
+    NSString *emitterPath = [[NSBundle mainBundle] pathForResource:@"EmitterFireFilesStar" ofType:@"sks"];
+    touchEmitterNode = [NSKeyedUnarchiver unarchiveObjectWithFile:emitterPath];
+    touchEmitterNode.targetNode = self;
+    [touchEmitterNode runAction:[SKAction sequence:@[[SKAction waitForDuration:10.0],
+                                                     [SKAction fadeOutWithDuration:0.5],
+                                                     [SKAction removeFromParent],]]];
     
 }
 
@@ -194,7 +195,11 @@
 {
     //    NSLog(@"force = %f",force);
     
-    double volumeForce = force;
+    double volumeForce = 0;
+    
+    if (self.jumpState) {
+        volumeForce = 3.5;
+    }
     if (self.jumpState) {
         volumeForce = 10;
     }else if (self.walkState)
@@ -339,6 +344,7 @@
     _birdNode.status = SbBirdStatic;
     _status = GameOver;
     [_birdNode gameSuccess];
+
     
 }
 
@@ -357,23 +363,23 @@
 #pragma mark - touchAction
 
 - (void)touchDownAtPoint:(CGPoint)pos {
-    SKShapeNode *n = [_spinnyNode copy];
+    SKEmitterNode *n = [touchEmitterNode copy];
     n.position = pos;
-    n.strokeColor = [SKColor greenColor];
+    [n performSelector:@selector(setPaused:) withObject:@(YES) afterDelay:0.2];
     [self addChild:n];
 }
 
 - (void)touchMovedToPoint:(CGPoint)pos {
-    SKShapeNode *n = [_spinnyNode copy];
+    SKEmitterNode *n = [touchEmitterNode copy];
     n.position = pos;
-    n.strokeColor = [SKColor blueColor];
+     [n performSelector:@selector(setPaused:) withObject:@(YES) afterDelay:0.2];
     [self addChild:n];
 }
 
 - (void)touchUpAtPoint:(CGPoint)pos {
-    SKShapeNode *n = [_spinnyNode copy];
+    SKEmitterNode *n = [touchEmitterNode copy];
     n.position = pos;
-    n.strokeColor = [SKColor redColor];
+     [n performSelector:@selector(setPaused:) withObject:@(YES) afterDelay:0.2];
     [self addChild:n];
 }
 
