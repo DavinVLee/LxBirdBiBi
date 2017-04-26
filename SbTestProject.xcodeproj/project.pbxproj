@@ -37,8 +37,6 @@
 		C9057CEC1E683FC500185BAD /* SbBird_sma@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9057CDE1E683FC500185BAD /* SbBird_sma@2x.png */; };
 		C9057CED1E683FC500185BAD /* SbGameStart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9057CDF1E683FC500185BAD /* SbGameStart@2x.png */; };
 		C9057CEE1E683FC500185BAD /* SbGameTitle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9057CE01E683FC500185BAD /* SbGameTitle@2x.png */; };
-		C9057CF11E6840B500185BAD /* WechatIMG300.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C9057CEF1E6840B500185BAD /* WechatIMG300.jpeg */; };
-		C9057CF21E6840B500185BAD /* WechatIMG303.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C9057CF01E6840B500185BAD /* WechatIMG303.jpeg */; };
 		C9057D961E6911F000185BAD /* SbRoadBgNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C9057D951E6911F000185BAD /* SbRoadBgNode.m */; };
 		C9057D991E69122000185BAD /* SbRoadNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C9057D981E69122000185BAD /* SbRoadNode.m */; };
 		C91D32B91E705B4000B6A625 /* chicken_faild@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C91D32B61E705B4000B6A625 /* chicken_faild@2x.png */; };
@@ -147,8 +145,6 @@
 		C9057CDE1E683FC500185BAD /* SbBird_sma@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SbBird_sma@2x.png"; sourceTree = "<group>"; };
 		C9057CDF1E683FC500185BAD /* SbGameStart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SbGameStart@2x.png"; sourceTree = "<group>"; };
 		C9057CE01E683FC500185BAD /* SbGameTitle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SbGameTitle@2x.png"; sourceTree = "<group>"; };
-		C9057CEF1E6840B500185BAD /* WechatIMG300.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = WechatIMG300.jpeg; sourceTree = "<group>"; };
-		C9057CF01E6840B500185BAD /* WechatIMG303.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = WechatIMG303.jpeg; sourceTree = "<group>"; };
 		C9057D941E6911F000185BAD /* SbRoadBgNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SbRoadBgNode.h; sourceTree = "<group>"; };
 		C9057D951E6911F000185BAD /* SbRoadBgNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SbRoadBgNode.m; sourceTree = "<group>"; };
 		C9057D971E69122000185BAD /* SbRoadNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SbRoadNode.h; sourceTree = "<group>"; };
@@ -371,8 +367,6 @@
 				C9FB0F991E937E4500465C52 /* BirdStand.atlas */,
 				C9BAE4281E8B8E10003A9B4F /* Star */,
 				C9967DB81E84F5F700665D71 /* font */,
-				C9057CEF1E6840B500185BAD /* WechatIMG300.jpeg */,
-				C9057CF01E6840B500185BAD /* WechatIMG303.jpeg */,
 				C91E1F431E85AE4B000AE488 /* SbBackgroundImage@2x.png */,
 				C9057CD51E683FC500185BAD /* SbRoad1@2x.png */,
 				C9057CD61E683FC500185BAD /* SbRoad2@2x.png */,
@@ -631,7 +625,6 @@
 				C91D32C51E7082F300B6A625 /* SbMonster@2x.png in Resources */,
 				C9057CE51E683FC500185BAD /* SbTree1@2x.png in Resources */,
 				C9057CE91E683FC500185BAD /* SbReturn@2x.png in Resources */,
-				C9057CF21E6840B500185BAD /* WechatIMG303.jpeg in Resources */,
 				C9057C1D1E65A2F700185BAD /* Assets.xcassets in Resources */,
 				C9967DBC1E85077600665D71 /* MainScene.sks in Resources */,
 				C9627BAF1E69210300B7B1BA /* RoadManageInfo.plist in Resources */,
@@ -654,7 +647,6 @@
 				C9057CB81E672C1F00185BAD /* Actions.sks in Resources */,
 				C9BAE42D1E8B8E15003A9B4F /* SbStar1@2x.png in Resources */,
 				C9BAE4301E8B8E15003A9B4F /* SbStar4@2x.png in Resources */,
-				C9057CF11E6840B500185BAD /* WechatIMG300.jpeg in Resources */,
 				C9967DBA1E84F60000665D71 /* HYLEMIAOTIW.ttf in Resources */,
 				C9FB0F9C1E937E7F00465C52 /* BirdJump.atlas in Resources */,
 				C9BAE42E1E8B8E15003A9B4F /* SbStar2@2x.png in Resources */,

@@ -37,7 +37,8 @@ typedef NS_ENUM(NSInteger, SbBirdStatus){
 
 /**
  *小鸟成功动画
+ #@param offsetX 横向目标位置
  **/
-- (void)gameSuccess;
+- (void)gameSuccessWithOffsetX:(CGFloat)offsetX;
 
 @end

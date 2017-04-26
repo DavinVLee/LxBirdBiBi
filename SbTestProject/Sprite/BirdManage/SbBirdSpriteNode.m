@@ -100,13 +100,28 @@
 }
 
 #pragma mark - CallFunction
-- (void)gameSuccess
+- (void)gameSuccessWithOffsetX:(CGFloat)offsetX
 {
     [self removeAllActions];
-    SKSpriteNode *successBg = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImageNamed:@"SbGameFinishBg"]];
-    [self addChild:successBg];
     
-    self.texture = [SKTexture textureWithImageNamed:@"chicken_success"];
+    
+    SKAction *moveAction = [SKAction moveToX:offsetX duration:1.0];
+    
+    SKAction *walkAction = [SKAction animateWithTextures:_jumpTextureArray timePerFrame:0.04];
+    SKAction *walkRepeatAction = [SKAction repeatActionForever:walkAction];
+
+    
+    [self runAction:walkRepeatAction];
+    [self runAction:moveAction completion:^{
+        [self removeAllActions];
+        SKSpriteNode *successBg = [SKSpriteNode spriteNodeWithTexture:[SKTexture textureWithImageNamed:@"SbGameFinishBg"]];
+        [self addChild:successBg];
+        self.texture = [SKTexture textureWithImageNamed:@"chicken_success"];
+    }];
+    
+    
+    
+
     
 }
 

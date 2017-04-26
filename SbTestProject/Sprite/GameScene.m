@@ -109,8 +109,7 @@
     NSString *emitterPath = [[NSBundle mainBundle] pathForResource:@"EmitterFireFilesStar" ofType:@"sks"];
     touchEmitterNode = [NSKeyedUnarchiver unarchiveObjectWithFile:emitterPath];
     touchEmitterNode.targetNode = self;
-    [touchEmitterNode runAction:[SKAction sequence:@[[SKAction waitForDuration:10.0],
-                                                     [SKAction fadeOutWithDuration:0.5],
+    [touchEmitterNode runAction:[SKAction sequence:@[[SKAction waitForDuration:0.95],
                                                      [SKAction removeFromParent],]]];
     
 }
@@ -158,13 +157,14 @@
             else if(!roadNode.hasFinished && roadNode.index > 0)//避免重复添加分数
             {
                 self.GameScore = _GameScore + [roadNode getScore];
+                
+           
                 if (roadNode.isFinishRoad) {//到达终点
-                    [self gameFinish];
+                    [self gameFinishWithLastRoad:roadNode];
                     return;
                 }
             }
              self.physicsWorld.gravity = CGVectorMake(0, - 4.5);
-            //
         }
     }else if (contact.bodyA.categoryBitMask == BirdCategory && contact.bodyB.categoryBitMask == MonsterCategory)//小鸟碰撞怪兽，游戏结束
     {
@@ -315,7 +315,7 @@
         
     }
 }
-
+//游戏重新开始
 - (void)gameRefresh
 {
     _birdNode.physicsBody.dynamic = NO;
@@ -339,11 +339,14 @@
 
 }
 
-- (void)gameFinish
+//游戏胜利
+- (void)gameFinishWithLastRoad:(SbRoadNode *)road
 {
     _birdNode.status = SbBirdStatic;
     _status = GameOver;
-    [_birdNode gameSuccess];
+   
+    CGFloat offsetx = [_roadBgNode convertPoint:road.position toNode:self].x;
+    [_birdNode gameSuccessWithOffsetX:offsetx];
 
     
 }
@@ -365,6 +368,7 @@
 - (void)touchDownAtPoint:(CGPoint)pos {
     SKEmitterNode *n = [touchEmitterNode copy];
     n.position = pos;
+    n.particleTexture = [SKTexture textureWithImageNamed:@"SbStar4"];
     [n performSelector:@selector(setPaused:) withObject:@(YES) afterDelay:0.2];
     [self addChild:n];
 }
@@ -372,14 +376,15 @@
 - (void)touchMovedToPoint:(CGPoint)pos {
     SKEmitterNode *n = [touchEmitterNode copy];
     n.position = pos;
-     [n performSelector:@selector(setPaused:) withObject:@(YES) afterDelay:0.2];
+    [n performSelector:@selector(setPaused:) withObject:@(YES) afterDelay:0.2];
     [self addChild:n];
 }
 
 - (void)touchUpAtPoint:(CGPoint)pos {
     SKEmitterNode *n = [touchEmitterNode copy];
     n.position = pos;
-     [n performSelector:@selector(setPaused:) withObject:@(YES) afterDelay:0.2];
+    n.particleTexture = [SKTexture textureWithImageNamed:@"SbStar2"];
+    [n performSelector:@selector(setPaused:) withObject:@(YES) afterDelay:0.2];
     [self addChild:n];
 }
 
